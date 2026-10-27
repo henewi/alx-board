@@ -424,7 +424,18 @@ def lookup_route(cs, a=None):
 # ---------- aircraft (adsb.lol / airplanes.live) ----------
 
 SOURCE = {"name": None}          # the feed that answered last (credited on screen)
-SOURCE_REST = {}                 # feed -> time it may be asked again (after refusing or rate-limiting us)
+SOURCE_REST = {}                 # feed -> time it may be asked again
+SOURCE_STRIKES = {}              # feed -> failures in a row (each one doubles the rest)
+
+
+def rest_source(tmpl, host, why, base, cap):
+    """Be polite: a feed that refuses, rate-limits or times out is left alone, for longer each time
+    it happens in a row (1, 2, 4, 8 … minutes). The board meanwhile uses the other feeds."""
+    n = SOURCE_STRIKES.get(tmpl, 0)
+    SOURCE_STRIKES[tmpl] = n + 1
+    wait = min(cap, base * (2 ** n))
+    SOURCE_REST[tmpl] = time.time() + wait
+    log(f"flight source {host} {why}; leaving it alone for {wait // 60 if wait >= 60 else wait}{' min' if wait >= 60 else ' s'}")
 
 
 def fetch_aircraft(loc):
@@ -436,27 +447,27 @@ def fetch_aircraft(loc):
             continue
         url = tmpl.format(lat=loc["lat"], lon=loc["lon"], nm=nm)
         try:
-            d = fetch_json(url, 8)
-            if SOURCE["name"] != host:
+            d = fetch_json(url, 6)
+            if SOURCE_STRIKES.pop(tmpl, 0) or SOURCE["name"] != host:
                 log(f"flights now from {host}")
             SOURCE["name"] = host
             return d.get("ac") or d.get("aircraft") or []
         except urllib.error.HTTPError as e:
             last = e
-            # Be polite: a refusal or "slow down" means leave that feed alone for a while
             if e.code == 429:
                 try:
-                    wait = int(e.headers.get("Retry-After") or 60)
+                    asked = int(e.headers.get("Retry-After") or 60)
                 except ValueError:
-                    wait = 60
-                SOURCE_REST[tmpl] = time.time() + min(max(wait, 10), 3600)
+                    asked = 60
+                rest_source(tmpl, host, "said slow down (429)", max(60, asked), 1800)
             elif e.code in (401, 403):
-                SOURCE_REST[tmpl] = time.time() + 3600
-            log(f"flight source {host} said {e.code}" + (", leaving it alone for a while" if tmpl in SOURCE_REST else ""))
+                rest_source(tmpl, host, f"refused us ({e.code})", 3600, 6 * 3600)
+            else:
+                rest_source(tmpl, host, f"said {e.code}", 30, 600)
         except Exception as e:
             last = e
-            log(f"flight source failed {host}: {e}")
-    raise RuntimeError(f"all flight sources failed ({last})" if last else "all flight sources resting after refusing us")
+            rest_source(tmpl, host, f"failed ({e})", 30, 600)
+    raise RuntimeError(f"all flight sources failed ({last})" if last else "all flight sources resting")
 
 
 CREDIT = {"api.adsb.lol": "adsb.lol", "opendata.adsb.fi": "adsb.fi", "api.airplanes.live": "airplanes.live"}
