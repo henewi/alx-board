@@ -186,4 +186,4 @@ Chromium is launched with `--incognito` so aircraft photos are held in memory on
 
 ## Credits
 
-Map data © OpenStreetMap contributors (and © CARTO if a key is set). This credit must stay on screen. Flight data from adsb.lol and airplanes.live; routes from adsbdb and hexdb.io; airport list from OurAirports (public domain); weather from Open-Meteo; ISS orbit data from CelesTrak (orbit maths by satellite.js, MIT licence). These are free community services, so keep the polling interval sensible.
+Map data © OpenStreetMap contributors (and © CARTO if a key is set). The on-screen map credit is hidden because the board is a private display in one home; the credits are kept here. Flight data from adsb.lol and airplanes.live; routes from adsbdb and hexdb.io; airport list from OurAirports (public domain); weather from Open-Meteo; ISS orbit data from CelesTrak (orbit maths by satellite.js, MIT licence). These are free community services, so keep the polling interval sensible.

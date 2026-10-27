@@ -268,7 +268,7 @@
   .plane path{fill:var(--radar-ink)}
   .plane text{font-family:var(--font);font-size:9px;font-weight:500;letter-spacing:.06em;fill:var(--radar-ink)}
   .plane.near path,.plane.near text{fill:var(--radar-near)}
-  #radar .attr{inset:auto 0 30px 0;text-align:center;font:7px/1 system-ui,sans-serif;
+  #radar .attr{display:none;inset:auto 0 30px 0;text-align:center;font:7px/1 system-ui,sans-serif;
     color:var(--radar-ink);opacity:.55;letter-spacing:.04em}
 
 
@@ -408,7 +408,6 @@
     --tick:rgba(90,64,24,.75); --tick-step:5deg; --tick-in:152px;
     --face:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-160 -160 320 320'%3E%3Cg fill='%236b5530' fill-opacity='.09'%3E%3Cpath d='M0-140L14-14L140 0L14 14L0 140L-14 14L-140 0L-14-14Z'/%3E%3Cpath d='M70-70L8 0L70 70L0 8L-70 70L-8 0L-70-70L0-8Z' fill-opacity='.7'/%3E%3C/g%3E%3Ccircle r='146' fill='none' stroke='%236b5530' stroke-opacity='.45'/%3E%3Ccircle r='143' fill='none' stroke='%236b5530' stroke-opacity='.25'/%3E%3C/svg%3E") center/100% 100% no-repeat;
   }
-  body[data-theme="ivory"] #board{box-shadow:inset 0 0 0 1px rgba(217,178,90,.55), inset 0 0 0 4px #1b150f, inset 0 0 0 5px rgba(217,178,90,.3)}
   body[data-theme="ivory"] h1{font-family:'Cinzel',serif;font-size:27px;letter-spacing:.08em;
     background:linear-gradient(180deg,#f9e7ad 0%,#d9b25a 48%,#9b7428 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
   body[data-theme="ivory"] .code{-webkit-text-fill-color:#d9b25a;font-family:'Cinzel',serif;font-size:13px}
@@ -440,7 +439,6 @@
     --deco:radial-gradient(circle, transparent 0 147px, rgba(232,240,246,.55) 147.5px 148.5px, transparent 149px);
     --qr-bg:#3ee8ff;
   }
-  body[data-theme="cockpit"] #board{box-shadow:inset 0 0 0 1px #1c262f, inset 0 0 24px rgba(0,0,0,.9)}
   body[data-theme="cockpit"] h1{font-weight:700}
   body[data-theme="cockpit"] .code{color:#3ee8ff;border-color:#3ee8ff}
   body[data-theme="cockpit"] #clock{color:#3dff6a;font-family:'B612 Mono',monospace;font-size:26px;letter-spacing:0}
@@ -470,7 +468,6 @@
   }
   body[data-theme="racing"] #radar::before{-webkit-mask:radial-gradient(circle, transparent 0 143px, #000 143.5px 157px, transparent 157.5px);
     mask:radial-gradient(circle, transparent 0 143px, #000 143.5px 157px, transparent 157.5px)}
-  body[data-theme="racing"] #board{box-shadow:inset 0 0 0 1px rgba(212,175,55,.5), inset 0 0 0 3px #0b2016, inset 0 0 0 4px rgba(212,175,55,.28)}
   body[data-theme="racing"] h1{font-family:'Playfair Display',serif;font-style:italic;font-weight:700;font-size:29px;letter-spacing:.04em}
   body[data-theme="racing"] .code{font-family:'Oswald',sans-serif;font-style:normal;background:#f2e8cf;color:#0a1f14;border-color:#f2e8cf;
     border-radius:9px;padding:1px 8px}
@@ -546,8 +543,7 @@
   body[data-theme="graphite"] .code{background:#ff3b2f;border-color:#ff3b2f;color:#fff;font-style:normal;font-weight:700;transform:translateY(-3px) skewX(-12deg)}
   body[data-theme="graphite"] #clock{font-weight:700;color:#fff}
   body[data-theme="graphite"] .clock small{color:#ff3b2f}
-  body[data-theme="graphite"] header::before{content:'';position:absolute;left:-16px;top:-14px;width:6px;height:82px;background:#ff3b2f}
-  body[data-theme="graphite"] header::after{content:'';position:absolute;right:112px;top:-14px;width:90px;height:56px;opacity:.85;
+  body[data-theme="graphite"] header::after{content:'';position:absolute;right:112px;top:0;width:90px;height:44px;opacity:.85;
     background:repeating-linear-gradient(120deg,transparent 0 9px,#ff3b2f 9px 13px);
     -webkit-mask:linear-gradient(90deg,transparent,#000);mask:linear-gradient(90deg,transparent,#000)}
   body[data-theme="graphite"] #hero{background:rgba(255,255,255,.045);border-color:#2b3036;border-left-color:#ff3b2f;border-radius:0;
@@ -595,22 +591,24 @@
       linear-gradient(90deg, rgba(255,47,214,.55) 1.5px, transparent 1.5px) 0 0/44px 22px;
     transform:perspective(260px) rotateX(58deg);transform-origin:50% 100%;
     -webkit-mask:linear-gradient(transparent, #000 55%);mask:linear-gradient(transparent, #000 55%);opacity:.5}
-  body[data-theme="wavepunk"] #board::after{content:'';position:absolute;left:0;right:0;top:0;height:3px;z-index:-1;
-    background:linear-gradient(90deg,#ff2fd6,#5ff8ff)}
   body[data-theme="wavepunk"] h1{font-family:'Orbitron',sans-serif;font-weight:700;
     background:linear-gradient(90deg,#ff7ae6,#ffffff 45%,#5ff8ff);-webkit-background-clip:text;background-clip:text;color:transparent;
     filter:drop-shadow(0 0 6px rgba(255,47,214,.6))}
   body[data-theme="wavepunk"] .code{-webkit-text-fill-color:#5ff8ff;border-color:#5ff8ff;box-shadow:0 0 8px rgba(95,248,255,.6);font-family:'Orbitron',sans-serif;font-size:11px}
   body[data-theme="wavepunk"] #clock{font-family:'Orbitron',sans-serif;font-weight:700;color:#5ff8ff;text-shadow:0 0 10px rgba(95,248,255,.8)}
   body[data-theme="wavepunk"] .brand svg{filter:drop-shadow(0 0 5px #ff2fd6)}
-  body[data-theme="wavepunk"] header{border-bottom-color:#5ff8ff;box-shadow:0 1px 8px -2px rgba(95,248,255,.8)}
+  body[data-theme="wavepunk"] header{border-bottom-color:#5ff8ff}
+  body[data-theme="wavepunk"] header::after{content:'';position:absolute;left:0;right:0;bottom:-4px;height:6px;
+    background:radial-gradient(ellipse at 50% 0%, rgba(95,248,255,.45), transparent 70%);pointer-events:none}
   body[data-theme="wavepunk"] .c{box-shadow:inset 0 0 0 1px rgba(255,47,214,.35)}
   body[data-theme="wavepunk"] .labels{font-family:'Orbitron',sans-serif;font-size:9px;color:#ff7ae6}
   body[data-theme="wavepunk"] #hero{background:rgba(255,47,214,.07);border-color:rgba(95,248,255,.35);border-left-color:#ff2fd6;
     box-shadow:inset 0 0 22px rgba(255,47,214,.18), 0 0 14px rgba(255,47,214,.18)}
   body[data-theme="wavepunk"] .h-route{text-shadow:0 0 8px rgba(255,47,214,.7)}
   body[data-theme="wavepunk"] .h-stats b{color:#5ff8ff}
-  body[data-theme="wavepunk"] footer{border-top-color:#ff2fd6;box-shadow:0 -1px 8px -2px rgba(255,47,214,.9)}
+  body[data-theme="wavepunk"] footer{border-top-color:#ff2fd6}
+  body[data-theme="wavepunk"] footer::after{content:'';position:absolute;left:0;right:0;top:-3px;height:6px;
+    background:radial-gradient(ellipse at 50% 100%, rgba(255,47,214,.5), transparent 70%);pointer-events:none}
   body[data-theme="wavepunk"] .row.past .c{color:#a36fd6;text-shadow:none}
 
 </style>
