@@ -1,0 +1,9 @@
+[Unit]
+Description=ALX Departures nightly at 03:30
+
+[Timer]
+OnCalendar=*-*-* 03:30:00
+Persistent=false
+
+[Install]
+WantedBy=timers.target

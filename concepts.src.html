@@ -1,0 +1,639 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ALX Layouts</title>
+<!--FONTS-->
+<style>
+  /* ============ Screen palettes, matched to the faceplate ============ */
+  :root, #stage[data-face="wood"], #stage[data-face="none"]{
+    /* Warm: amber and brass, made to sit behind walnut */
+    --font:'Oswald','Arial Narrow',Arial,sans-serif;
+    --stage:#070504;
+    --panel-top:#16100a; --panel-bot:#0b0805;
+    --title:#f3e6c8; --accent:#ffb347; --text:#e8dcc0; --dim:#9c8a6a; --rule:#2e2418; --live:#9fd36b;
+    --flap-ink:#ffcf6b; --flap-top:#251c12; --flap-bot:#1a130c; --flap-line:rgba(0,0,0,.8);
+    --radar-in:#2a1d0f; --radar-out:#0b0704; --radar-line:#e8c27a; --radar-ink:#f3e6c8; --radar-near:#ffb347;
+    --sweep:rgba(255,200,120,.28); --sweep-faint:rgba(255,200,120,.04);
+    --gauge-in:#21170d; --gauge-out:#0a0603; --needle:#ffb347;
+    --map-invert:1; --map-hue:0deg; --map-sat:1.6; --map-bright:.8; --map-opacity:.5;
+  }
+  #stage[data-face="carbon"]{
+    /* Cool: graphite, white type, motorsport red */
+    --stage:#050607;
+    --panel-top:#111316; --panel-bot:#0a0b0d;
+    --title:#ffffff; --accent:#ff3b2f; --text:#d9dde3; --dim:#7d848e; --rule:#23272d; --live:#3dff8a;
+    --flap-ink:#f4f6f8; --flap-top:#1e2125; --flap-bot:#16181b; --flap-line:rgba(0,0,0,.85);
+    --radar-in:#10202b; --radar-out:#05090c; --radar-line:#8fd3ff; --radar-ink:#e9f2ff; --radar-near:#ff3b2f;
+    --sweep:rgba(120,200,255,.28); --sweep-faint:rgba(120,200,255,.04);
+    --gauge-in:#171b20; --gauge-out:#07080a; --needle:#ff3b2f;
+    --map-hue:180deg; --map-sat:2; --map-bright:.75;
+  }
+
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;background:#0b0b0b;font-family:var(--font);overflow:hidden}
+
+  /* Preview controls */
+  #controls{height:48px;display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;
+    font:13px/1 system-ui,sans-serif;color:#aaa}
+  #controls button{font:inherit;color:#111;background:#ffc53d;border:0;border-radius:6px;padding:8px 10px;cursor:pointer}
+  #controls button.off{background:#333;color:#ccc}
+  #controls .tag{border:1px solid #444;border-radius:20px;padding:6px 10px;min-width:118px;text-align:center;color:#ddd;white-space:nowrap}
+  #viewport{width:100%;height:calc(100% - 48px);display:flex;align-items:center;justify-content:center;overflow:hidden}
+
+  #stage{position:relative;width:1024px;height:600px;flex:none;background:var(--stage);overflow:hidden;
+    transform-origin:center;color:var(--text)}
+  .layout{position:absolute;inset:0;display:none}
+  #stage[data-layout="hero"] .layout.hero,
+  #stage[data-layout="gate"] .layout.gate,
+  #stage[data-layout="cluster"] .layout.cluster,
+  #stage[data-layout="bands"] .layout.bands{display:block}
+
+  .panel{position:absolute;padding:14px 16px;display:flex;flex-direction:column;
+    background:linear-gradient(var(--panel-top),var(--panel-bot))}
+  .lbl{font-size:11px;letter-spacing:.26em;color:var(--dim)}
+  .acc{color:var(--accent)}
+
+  /* ============ Split flaps ============ */
+  .flaps{display:flex;gap:1px}
+  .c{text-align:center;color:var(--flap-ink);font-weight:500;border-radius:2px;position:relative;overflow:hidden;
+    background:linear-gradient(var(--flap-top) 0 50%,var(--flap-bot) 50% 100%)}
+  .c::after{content:'';position:absolute;left:0;right:0;top:50%;height:1px;background:var(--flap-line)}
+  .c.f{animation:flap 55ms linear}
+  @keyframes flap{50%{transform:scaleY(.55);filter:brightness(1.4)}}
+  .sm .c{width:15px;height:28px;line-height:28px;font-size:20px}
+  .md .c{width:16px;height:36px;line-height:36px;font-size:26px}
+  .gt .c{width:17px;height:42px;line-height:42px;font-size:31px}
+  .lg .c{width:26px;height:44px;line-height:44px;font-size:32px}
+  .xl .c{width:34px;height:56px;line-height:56px;font-size:44px}
+  .st .c{width:19px;height:56px;line-height:56px;font-size:40px}
+  .frow{display:flex;gap:10px;align-items:center;position:relative}
+  .frow.near::before{content:'';position:absolute;left:-11px;top:4px;bottom:4px;width:4px;border-radius:2px;background:var(--accent)}
+
+  /* ============ Radar ============ */
+  .radar{position:absolute;border-radius:50%;overflow:hidden}
+  .radar > *{position:absolute;inset:0}
+  .radar svg{width:100%;height:100%}
+  .rbg{background:radial-gradient(circle,var(--radar-in),var(--radar-out))}
+  .rmap{opacity:var(--map-opacity)}
+  .rmap .tiles{position:absolute;transform-origin:0 0;
+    filter:invert(var(--map-invert)) grayscale(1) sepia(1) hue-rotate(var(--map-hue)) saturate(var(--map-sat)) brightness(var(--map-bright)) contrast(1.3)}
+  .rmap img{position:absolute;width:257px;height:257px}
+  .rings{fill:none;stroke:var(--radar-line);stroke-opacity:.18}
+  .rim{fill:none;stroke:var(--radar-line);stroke-opacity:.4}
+  .rtxt{fill:var(--radar-line);fill-opacity:.6;font-family:var(--font)}
+  .sweep{border-radius:50%;background:conic-gradient(from 0deg,transparent 0deg 285deg,var(--sweep-faint) 320deg,var(--sweep) 360deg);
+    animation:spin 5s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .plane{transition:transform 1s linear}
+  .plane.warp{transition:none}
+  .plane path{fill:var(--radar-ink)}
+  .plane text{font-family:var(--font);font-size:9px;letter-spacing:.05em;fill:var(--radar-ink)}
+  .plane.far{opacity:.5}.plane.far text{display:none}
+  .plane.hero path,.plane.hero text{fill:var(--radar-near)}
+  .home{fill:var(--radar-near)}
+  .ping{fill:none;stroke:var(--radar-near);transform-box:fill-box;transform-origin:center;animation:ping 2.4s ease-out infinite}
+  @keyframes ping{from{transform:scale(1);opacity:.8}to{transform:scale(5);opacity:0}}
+
+  /* ============ Layout: HERO (overhead now + radar) ============ */
+  .hero .panel{left:24px;top:24px;width:640px;height:552px}
+  .hdr{display:flex;justify-content:space-between;align-items:flex-end;padding-bottom:10px;border-bottom:1px solid var(--rule)}
+  .brand{display:flex;align-items:center;gap:10px}
+  .brand svg{width:30px;height:30px;fill:var(--accent);transform:rotate(45deg)}
+  .brand h1{margin:0;font-size:26px;font-weight:600;letter-spacing:.12em;color:var(--title);line-height:1;white-space:nowrap}
+  .badge{display:inline-block;margin-left:8px;padding:1px 6px;font-size:13px;letter-spacing:.2em;color:var(--accent);
+    border:1.5px solid var(--accent);transform:translateY(-3px)}
+  .clk{font-size:32px;color:var(--accent);letter-spacing:.06em;line-height:1}
+  .hero .kick{margin:16px 0 8px;display:flex;justify-content:space-between}
+  .hero-top{display:flex;align-items:flex-end;justify-content:space-between}
+  .hero-air{font-size:22px;letter-spacing:.12em;color:var(--title);text-align:right;line-height:1.1}
+  .hero-air small{display:block;font-size:12px;letter-spacing:.24em;color:var(--dim)}
+  .route{display:flex;align-items:center;gap:10px;margin-top:10px}
+  .route svg{width:34px;height:20px;fill:var(--accent);flex:none}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);margin-top:14px;padding-top:10px;border-top:1px solid var(--rule)}
+  .stats div{display:flex;flex-direction:column;gap:3px}
+  .stats b{font-weight:500;font-size:24px;color:var(--title);letter-spacing:.04em}
+  .hero .list{display:flex;flex-direction:column;gap:5px}
+  .foot{margin-top:auto;display:flex;justify-content:space-between;align-items:center;padding-top:10px;
+    border-top:1px solid var(--rule);font-size:13px;letter-spacing:.14em}
+  .dot{display:inline-block;width:8px;height:8px;margin-right:7px;border-radius:50%;background:var(--live);animation:pulse 2s infinite}
+  @keyframes pulse{50%{opacity:.25}}
+  .hero .radar{left:688px;top:130px;width:320px;height:320px}
+
+  /* ============ Layout: GATE (one long board) ============ */
+  .gate .panel{left:24px;top:104px;width:976px;height:440px;padding:12px 16px}
+  .gate .cols{display:flex;gap:10px;margin-bottom:6px}
+  .gate .rows{display:flex;flex-direction:column;gap:5px}
+  .gate .frow.first{margin-bottom:6px;padding-bottom:6px;border-bottom:1px solid var(--rule)}
+  .bear{width:34px;height:34px;flex:none;transition:transform 1s linear}
+  .bear path{fill:var(--accent)}
+  .gate .bar{margin-top:auto;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;font-size:14px;letter-spacing:.16em}
+  .gate .bar .clk{font-size:28px}
+  .gate .bar span:last-child{text-align:right}
+
+  /* ============ Layout: CLUSTER (gauges) ============ */
+  .gauge{position:absolute;border-radius:50%;overflow:hidden;background:radial-gradient(circle,var(--gauge-in),var(--gauge-out))}
+  .gauge svg{width:100%;height:100%}
+  .gtick{stroke:var(--radar-line);stroke-opacity:.7}
+  .gtxt{fill:var(--text);font-family:var(--font)}
+  .gdim{fill:var(--dim);font-family:var(--font);letter-spacing:.2em}
+  .gacc{fill:var(--accent);font-family:var(--font);letter-spacing:.14em}
+  .needle{fill:var(--needle);transition:transform 1s ease-in-out}
+  .cluster .g-alt{left:56px;top:128px;width:244px;height:244px}
+  .cluster .radar{left:320px;top:58px;width:384px;height:384px}
+  .cluster .g-hdg{left:724px;top:128px;width:244px;height:244px}
+  .cluster .strip{left:152px;top:478px;width:720px;height:84px;padding:14px 12px;align-items:center;justify-content:center}
+  .hdg-plane{transition:transform 1s linear}
+  .hdg-plane path{fill:var(--radar-near)}
+
+  /* ============ Layout: BANDS (arriving / departing / passing) ============ */
+  .bands .panel{left:176px;width:824px;height:166px;padding:10px 12px}
+  .bands .b1{top:30px}.bands .b2{top:217px}.bands .b3{top:404px}
+  .bands .cols{display:flex;gap:12px;margin-bottom:5px;justify-content:space-between}
+  .bands .rows{display:flex;flex-direction:column;gap:5px}
+  .bands .clk{font-size:12px;letter-spacing:.2em}
+
+  /* ============ Faceplate ============ */
+  #face{position:absolute;inset:0;pointer-events:none;z-index:5}
+  #stage[data-face="none"] #face{display:none}
+</style>
+</head>
+<body>
+
+<div id="controls">
+  <button id="prevL" type="button" aria-label="Previous layout">‹</button>
+  <span class="tag" id="layoutName">Overhead Now</span>
+  <button id="nextL" type="button" aria-label="Next layout">›</button>
+  <button id="faceWood" type="button">Wood</button>
+  <button id="faceCarbon" type="button" class="off">Carbon</button>
+  <button id="faceNone" type="button" class="off">Bare</button>
+</div>
+
+<div id="viewport">
+<div id="stage" data-layout="hero" data-face="wood">
+
+  <!-- ===== 1. OVERHEAD NOW ===== -->
+  <section class="layout hero">
+    <div class="panel">
+      <div class="hdr">
+        <div class="brand"><svg viewBox="-12 -12 24 24"><path d="M0,-11 L2,-4 L10,0 L10,2.5 L2,1 L1.5,7 L4,9 L4,10.5 L0,9.5 L-4,10.5 L-4,9 L-1.5,7 L-2,1 L-10,2.5 L-10,0 L-2,-4 Z"/></svg>
+          <h1>ALEX INTERNATIONAL<span class="badge">ALX</span></h1></div>
+        <span class="clk" data-clock></span>
+      </div>
+      <div class="kick"><span class="lbl acc">OVERHEAD NOW</span><span class="lbl" id="hA-look"></span></div>
+      <div class="hero-top">
+        <div id="hA-cs" class="flaps xl"></div>
+        <div class="hero-air" id="hA-air"></div>
+      </div>
+      <div class="route">
+        <div id="hA-from" class="flaps lg"></div>
+        <svg viewBox="0 0 34 20"><path d="M0 8h24V2l10 8-10 8v-6H0z"/></svg>
+        <div id="hA-to" class="flaps lg"></div>
+      </div>
+      <div class="stats">
+        <div><span class="lbl">AIRCRAFT</span><b id="hA-type"></b></div>
+        <div><span class="lbl">ALTITUDE</span><b id="hA-alt"></b></div>
+        <div><span class="lbl">DISTANCE</span><b id="hA-dist"></b></div>
+        <div><span class="lbl">SPEED</span><b id="hA-gs"></b></div>
+      </div>
+      <div class="kick"><span class="lbl">ALSO IN RANGE</span><span class="lbl" id="hA-count"></span></div>
+      <div class="list" id="hA-list"></div>
+      <div class="foot"><span class="acc"><span class="dot"></span>LIVE</span><span><span class="acc" data-today></span> OVER ALEX TODAY</span></div>
+    </div>
+    <div class="radar" id="hA-radar"></div>
+  </section>
+
+  <!-- ===== 2. GATE BOARD ===== -->
+  <section class="layout gate">
+    <div class="panel">
+      <div class="cols lbl" id="gB-cols"></div>
+      <div class="rows" id="gB-rows"></div>
+      <div class="bar">
+        <span><span class="dot"></span><span id="gB-n"></span> IN RANGE</span>
+        <span class="clk" data-clock></span>
+        <span><span class="acc" data-today></span> OVER ALEX TODAY</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 3. INSTRUMENT CLUSTER ===== -->
+  <section class="layout cluster">
+    <div class="gauge g-alt"><svg viewBox="-122 -122 244 244" id="cC-alt"></svg></div>
+    <div class="radar" id="cC-radar"></div>
+    <div class="gauge g-hdg"><svg viewBox="-122 -122 244 244" id="cC-hdg"></svg></div>
+    <div class="panel strip"><div id="cC-strip" class="flaps st"></div></div>
+  </section>
+
+  <!-- ===== 4. ARRIVING / DEPARTING / PASSING OVER ===== -->
+  <section class="layout bands">
+    <div class="panel b1"><div class="cols lbl"><span>ARRIVING NEARBY</span><span class="clk acc" data-clock></span></div><div class="rows" id="dD-arr"></div></div>
+    <div class="panel b2"><div class="cols lbl"><span>LEAVING NEARBY</span><span></span></div><div class="rows" id="dD-dep"></div></div>
+    <div class="panel b3"><div class="cols lbl"><span>PASSING OVER</span><span><span class="acc" data-today></span> TODAY</span></div><div class="rows" id="dD-over"></div></div>
+  </section>
+
+  <svg id="face" viewBox="0 0 1024 600" aria-hidden="true">
+    <defs>
+      <linearGradient id="wood" x1="0" y1="0" x2="1" y2=".15">
+        <stop offset="0" stop-color="#3a2215"/><stop offset=".18" stop-color="#5b3620"/>
+        <stop offset=".35" stop-color="#432716"/><stop offset=".55" stop-color="#6a4227"/>
+        <stop offset=".72" stop-color="#4b2c19"/><stop offset=".9" stop-color="#5e3822"/>
+        <stop offset="1" stop-color="#3b2316"/>
+      </linearGradient>
+      <pattern id="grain" width="260" height="9" patternUnits="userSpaceOnUse">
+        <path d="M0 4 Q65 1 130 4 T260 4" fill="none" stroke="#1a0d06" stroke-opacity=".3"/>
+        <path d="M0 7 Q65 8.5 130 7 T260 7" fill="none" stroke="#c08a5a" stroke-opacity=".1"/>
+      </pattern>
+      <linearGradient id="cfA" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#0c0c0d"/><stop offset=".5" stop-color="#2e3033"/><stop offset="1" stop-color="#0c0c0d"/>
+      </linearGradient>
+      <linearGradient id="cfB" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#0a0a0b"/><stop offset=".5" stop-color="#232427"/><stop offset="1" stop-color="#0a0a0b"/>
+      </linearGradient>
+      <pattern id="carbon" width="14" height="14" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+        <rect width="7" height="7" fill="url(#cfA)"/><rect x="7" y="7" width="7" height="7" fill="url(#cfA)"/>
+        <rect x="7" width="7" height="7" fill="url(#cfB)"/><rect y="7" width="7" height="7" fill="url(#cfB)"/>
+      </pattern>
+      <linearGradient id="gloss" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#fff" stop-opacity=".10"/><stop offset=".45" stop-color="#fff" stop-opacity="0"/>
+        <stop offset=".7" stop-color="#fff" stop-opacity=".05"/><stop offset="1" stop-color="#fff" stop-opacity="0"/>
+      </linearGradient>
+      <linearGradient id="brass" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#f3d27a"/><stop offset=".35" stop-color="#b8892e"/>
+        <stop offset=".55" stop-color="#f6dc8c"/><stop offset=".8" stop-color="#9c7120"/><stop offset="1" stop-color="#d9b25a"/>
+      </linearGradient>
+      <linearGradient id="alu" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#f2f4f6"/><stop offset=".3" stop-color="#9aa1a8"/>
+        <stop offset=".55" stop-color="#e4e7ea"/><stop offset=".8" stop-color="#7d848b"/><stop offset="1" stop-color="#cfd4d9"/>
+      </linearGradient>
+    </defs>
+    <g id="faceBody"></g>
+  </svg>
+
+</div>
+</div>
+
+<script>
+// ================= Shared helpers =================
+const $ = id => document.getElementById(id);
+const NS = 'http://www.w3.org/2000/svg';
+const NBSP = ' ', CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+const RANGE = 25, KT = 1.15078 / 3600;
+const PLANE = 'M0,-8 L1.5,-3 L7,0 L7,1.8 L1.5,0.6 L1,5 L3,6.5 L3,7.6 L0,6.8 L-3,7.6 L-3,6.5 L-1,5 L-1.5,0.6 L-7,1.8 L-7,0 L-1.5,-3 Z';
+const COMPASS = ['N','NE','E','SE','S','SW','W','NW'];
+
+function clean(s, n) {
+  s = String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toUpperCase()
+    .replace(/[^A-Z0-9 \-\/.,>]/g, ' ').replace(/\s+/g, ' ').trim();
+  return n ? s.padEnd(n).slice(0, n) : s;
+}
+const sanitize = s => String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toUpperCase().replace(/[^A-Z0-9 \-\/.,>]/g, ' ');
+function centre(s, n) { s = clean(s); const p = Math.max(0, Math.floor((n - s.length) / 2)); return (' '.repeat(p) + s).padEnd(n).slice(0, n); }
+function shortAirline(name) {
+  let n = clean(name).replace(/\.COM\b/g, '')
+    .replace(/\b(AIRWAYS|AIRLINES|AIR LINES|AIRLINE|INTERNATIONAL|LIMITED|LTD|PLC|GROUP)\b/g, '').replace(/\s+/g, ' ').trim();
+  return n.length > 9 ? n.split(' ')[0] : n;
+}
+const airlineOf = a => a.airline ? shortAirline(a.airline) : /^[A-Z]{3}\d/.test(a.cs) ? a.cs.slice(0, 3) : 'PRIVATE';
+const distTxt = d => d < 10 ? d.toFixed(1) : String(Math.round(d));
+const bearingOf = a => (Math.atan2(a.x, a.y) * 180 / Math.PI + 360) % 360;
+const lookOf = a => COMPASS[Math.round(bearingOf(a) / 45) % 8];
+
+function flipTo(cell, ch, delay) {
+  ch = ch === ' ' ? NBSP : ch;
+  if (cell._t === ch) return;
+  cell._t = ch; clearTimeout(cell._to); clearInterval(cell._it);
+  cell._to = setTimeout(() => {
+    let n = 3 + Math.floor(Math.random() * 4);
+    cell._it = setInterval(() => {
+      cell.classList.remove('f'); void cell.offsetWidth; cell.classList.add('f');
+      if (n-- <= 0) { cell.textContent = ch; clearInterval(cell._it); }
+      else cell.textContent = CHARS[Math.floor(Math.random() * CHARS.length)];
+    }, 55);
+  }, delay);
+}
+// A strip of n flaps inside el
+function flaps(el, n, instant) {
+  const cells = [];
+  for (let i = 0; i < n; i++) { const c = document.createElement('span'); c.className = 'c'; c.textContent = NBSP; c._t = NBSP; el.appendChild(c); cells.push(c); }
+  return { el, n, set(text, delay = 0) {
+    [...sanitize(text).padEnd(n).slice(0, n)].forEach((ch, i) => {
+      // Live numbers (distance, flight level) change every second, so they update without flipping
+      if (instant) { ch = ch === ' ' ? NBSP : ch; cells[i]._t = ch; cells[i].textContent = ch; }
+      else flipTo(cells[i], ch, delay + i * 14);
+    });
+  } };
+}
+// A row of several flap groups, e.g. [7,9,9] for flight / from / to
+function flapRow(parent, widths, size, extra, instantFrom = 99) {
+  const row = document.createElement('div'); row.className = 'frow';
+  const groups = widths.map((w, i) => { const g = document.createElement('div'); g.className = 'flaps ' + size; row.appendChild(g); return flaps(g, w, i >= instantFrom); });
+  if (extra) row.appendChild(extra);
+  parent.appendChild(row);
+  return { row, set(parts, delay = 0) { groups.forEach((g, i) => g.set(parts[i] || '', delay + i * 40)); } };
+}
+// Keeps aircraft on the same row while they stay in the list, so rows don't reshuffle
+function slotKeeper(n) {
+  const slots = new Array(n).fill(null);
+  return hexes => {
+    for (let i = 0; i < n; i++) if (slots[i] && !hexes.includes(slots[i])) slots[i] = null;
+    hexes.forEach(h => { if (!slots.includes(h)) { const i = slots.indexOf(null); if (i >= 0) slots[i] = h; } });
+    return slots;
+  };
+}
+// The "hero" flight only changes when another plane is clearly closer (stops it flickering between two)
+function heroPicker() {
+  let hex = null;
+  return list => {
+    const cur = list.find(a => a.hex === hex);
+    if (!cur || (list[0] && list[0].dist < cur.dist - 0.5)) hex = list[0] ? list[0].hex : null;
+    return list.find(a => a.hex === hex) || null;
+  };
+}
+
+// ================= Radar =================
+function makeRadar(host, R) {
+  const s = R / RANGE;
+  const rings = [1, 2, 3, 4].map(i => `<circle r="${R * i / 5}"/>`).join('');
+  host.innerHTML = `<div class="rbg"></div><div class="rmap"></div>
+    <svg viewBox="${-R} ${-R} ${2 * R} ${2 * R}"><g class="rings">${rings}<line x1="${-R}" x2="${R}"/><line y1="${-R}" y2="${R}"/></g>
+      <circle class="rim" r="${R - 2}"/>
+      <g class="rtxt" font-size="${R / 14}" text-anchor="middle"><text y="${-R + R / 9}">N</text><text y="${R - R / 18}">S</text><text x="${R - R / 11}" y="${R / 40}">E</text><text x="${-R + R / 11}" y="${R / 40}">W</text></g></svg>
+    <div class="sweep"></div>
+    <svg viewBox="${-R} ${-R} ${2 * R} ${2 * R}"><g class="planes"></g><circle class="ping" r="3"/><circle class="home" r="3"/></svg>`;
+  const g0 = host.querySelector('.planes');
+  const map = host.querySelector('.rmap');
+  const tracks = new Map();
+  // Map tiles around the location (preview pulls OpenStreetMap directly; on the Pi they come from the local cache)
+  (function tiles(lat, lon) {
+    const want = 1609.34 / s, cosl = Math.cos(lat * Math.PI / 180);
+    const z = Math.min(12, Math.ceil(Math.log2(156543.03 * cosl / want)));
+    const k = (156543.03 * cosl / 2 ** z) / want, n = 256 * 2 ** z, lr = lat * Math.PI / 180;
+    const X = (lon + 180) / 360 * n, Y = (1 - Math.log(Math.tan(lr) + 1 / Math.cos(lr)) / Math.PI) / 2 * n, reach = R / k + 8;
+    const layer = document.createElement('div'); layer.className = 'tiles';
+    layer.style.cssText = `left:${R}px;top:${R}px;transform:scale(${k})`;
+    for (let tx = Math.floor((X - reach) / 256); tx <= Math.floor((X + reach) / 256); tx++)
+      for (let ty = Math.floor((Y - reach) / 256); ty <= Math.floor((Y + reach) / 256); ty++) {
+        const im = new Image(); im.alt = ''; im.src = `https://tile.openstreetmap.org/${z}/${tx}/${ty}.png`;
+        im.style.left = (tx * 256 - X) + 'px'; im.style.top = (ty * 256 - Y) + 'px'; layer.appendChild(im);
+      }
+    map.appendChild(layer);
+  })(51.949, -0.283);
+  return function update(list, hero, labelled) {
+    const seen = new Set();
+    list.forEach(a => {
+      seen.add(a.hex);
+      let t = tracks.get(a.hex);
+      if (!t) {
+        const g = document.createElementNS(NS, 'g'); g.setAttribute('class', 'plane warp');
+        const p = document.createElementNS(NS, 'path'); p.setAttribute('d', PLANE);
+        const tx = document.createElementNS(NS, 'text'); tx.setAttribute('x', 9); tx.setAttribute('y', -6);
+        g.append(p, tx); g0.appendChild(g); t = { g, p, tx, fresh: true }; tracks.set(a.hex, t);
+      }
+      t.g.style.transform = `translate(${(a.x * s).toFixed(1)}px,${(-a.y * s).toFixed(1)}px)`;
+      t.p.setAttribute('transform', `rotate(${Math.round(a.track)})`);
+      t.tx.textContent = `${a.cs} ${String(Math.round(a.alt / 100)).padStart(3, '0')}`;
+      t.g.classList.toggle('hero', !!hero && a.hex === hero.hex);
+      t.g.classList.toggle('far', !labelled.has(a.hex));
+      if (t.fresh) { void t.g.getBoundingClientRect(); t.g.classList.remove('warp'); t.fresh = false; }
+    });
+    for (const [h, t] of tracks) if (!seen.has(h)) { t.g.remove(); tracks.delete(h); }
+  };
+}
+
+// ================= Layout 1: OVERHEAD NOW =================
+const hero = (() => {
+  const cs = flaps($('hA-cs'), 7), from = flaps($('hA-from'), 8), to = flaps($('hA-to'), 8);
+  const rows = []; for (let i = 0; i < 4; i++) rows.push(flapRow($('hA-list'), [7, 8, 8, 4, 4], 'md', null, 4));
+  const keep = slotKeeper(4), pick = heroPicker();
+  const radar = makeRadar($('hA-radar'), 160);
+  return list => {
+    const h = pick(list);
+    if (h) {
+      cs.set(h.cs); from.set(h.from || '-'); to.set(h.to || '-');
+      $('hA-air').innerHTML = `${clean(airlineOf(h))}<small>${h.cs}</small>`;
+      $('hA-type').textContent = h.type; $('hA-alt').textContent = `${h.alt.toLocaleString('en-GB')} FT`;
+      $('hA-dist').textContent = `${distTxt(h.dist)} MI`; $('hA-gs').textContent = `${Math.round(h.gs)} KT`;
+      $('hA-look').textContent = `LOOK ${lookOf(h)}`;
+    } else { cs.set('CLEAR'); from.set(''); to.set(''); $('hA-air').textContent = 'SKIES CLEAR'; }
+    const rest = list.filter(a => a !== h);
+    const slots = keep(rest.slice(0, 4).map(a => a.hex));
+    slots.forEach((hx, i) => { const a = rest.find(r => r.hex === hx);
+      rows[i].set(a ? [a.cs, a.from || '-', a.to || '-', a.type, distTxt(a.dist)] : [], i * 60); });
+    $('hA-count').textContent = `${list.length} WITHIN 25 MI`;
+    radar(list, h, new Set([h && h.hex, ...slots].filter(Boolean)));
+  };
+})();
+
+// ================= Layout 2: GATE BOARD =================
+const gate = (() => {
+  const W = [7, 9, 9, 9, 4, 4, 3];
+  $('gB-cols').innerHTML = ['FLIGHT', 'FROM', 'TO', 'AIRLINE', 'TYPE', 'MILES', 'FL', 'LOOK']
+    .map((t, i) => `<span style="width:${i < 7 ? W[i] * 18 - 1 : 34}px">${t}</span>`).join('');
+  const rows = [];
+  for (let i = 0; i < 7; i++) {
+    const arrow = document.createElementNS(NS, 'svg'); arrow.setAttribute('viewBox', '-12 -12 24 24'); arrow.setAttribute('class', 'bear');
+    arrow.innerHTML = '<path d="M0,-10 L7,8 L0,3 L-7,8 Z"/>';
+    const r = flapRow($('gB-rows'), W, 'gt', arrow, 5); r.arrow = arrow; rows.push(r);
+  }
+  rows[0].row.classList.add('first', 'near');
+  const keep = slotKeeper(6), pick = heroPicker();
+  const fill = (r, a, d) => {
+    r.set(a ? [a.cs, a.from || '-', a.to || '-', airlineOf(a), a.type, distTxt(a.dist).padStart(4), String(Math.round(a.alt / 100)).padStart(3, '0')] : [], d);
+    r.arrow.style.opacity = a ? 1 : 0; if (a) r.arrow.style.transform = `rotate(${bearingOf(a)}deg)`;
+  };
+  return list => {
+    const h = pick(list); fill(rows[0], h, 0);
+    const rest = list.filter(a => a !== h);
+    keep(rest.slice(0, 6).map(a => a.hex)).forEach((hx, i) => fill(rows[i + 1], rest.find(r => r.hex === hx), (i + 1) * 60));
+    if (!list.length) rows[3].set(['', 'CLEAR', 'SKIES', 'ALEX']);
+    $('gB-n').textContent = list.length;
+  };
+})();
+
+// ================= Layout 3: INSTRUMENT CLUSTER =================
+const cluster = (() => {
+  // Altimeter
+  const alt = $('cC-alt'); let s = '<circle r="118" fill="none" class="gtick" stroke-opacity=".25"/>';
+  for (let v = 0; v <= 40; v++) {
+    const a = (-150 + v / 40 * 300) * Math.PI / 180, big = v % 5 === 0, r1 = 112, r2 = big ? 96 : 104;
+    s += `<line class="gtick" stroke-width="${big ? 2 : 1}" x1="${(Math.sin(a) * r1).toFixed(1)}" y1="${(-Math.cos(a) * r1).toFixed(1)}" x2="${(Math.sin(a) * r2).toFixed(1)}" y2="${(-Math.cos(a) * r2).toFixed(1)}"/>`;
+    if (big) s += `<text class="gtxt" font-size="13" text-anchor="middle" x="${(Math.sin(a) * 82).toFixed(1)}" y="${(-Math.cos(a) * 82 + 5).toFixed(1)}">${v}</text>`;
+  }
+  s += `<text class="gacc" id="cC-air" font-size="11" text-anchor="middle" y="-50"></text>
+    <text class="gdim" font-size="9" text-anchor="middle" y="-34">FT × 1000</text>
+    <text class="gtxt" id="cC-altv" font-size="24" text-anchor="middle" y="50"></text>
+    <g class="needle" id="cC-needle"><path d="M-3,10 L0,-100 L3,10 Z"/></g><circle r="7" fill="#111" stroke="var(--needle)" stroke-width="2"/>`;
+  alt.innerHTML = s;
+  // Heading / look-direction
+  const hdg = $('cC-hdg'); s = '';
+  for (let d = 0; d < 360; d += 10) {
+    const a = d * Math.PI / 180, big = d % 30 === 0;
+    s += `<line class="gtick" stroke-width="${big ? 2 : 1}" x1="${(Math.sin(a) * 114).toFixed(1)}" y1="${(-Math.cos(a) * 114).toFixed(1)}" x2="${(Math.sin(a) * (big ? 100 : 106)).toFixed(1)}" y2="${(-Math.cos(a) * (big ? 100 : 106)).toFixed(1)}"/>`;
+  }
+  ['N', 'E', 'S', 'W'].forEach((l, i) => { const a = i * Math.PI / 2; s += `<text class="gtxt" font-size="14" text-anchor="middle" x="${(Math.sin(a) * 88).toFixed(1)}" y="${(-Math.cos(a) * 88 + 5).toFixed(1)}">${l}</text>`; });
+  s += `<text class="gacc" id="cC-look" font-size="12" text-anchor="middle" y="-46"></text>
+    <g class="hdg-plane" id="cC-hp"><path d="${PLANE}" transform="scale(3.2)"/></g>
+    <text class="gtxt" id="cC-trk" font-size="20" text-anchor="middle" y="50"></text>
+    <text class="gdim" id="cC-sub" font-size="10" text-anchor="middle" y="68"></text>`;
+  hdg.innerHTML = s;
+  const strip = flaps($('cC-strip'), 34), pick = heroPicker();
+  const radar = makeRadar($('cC-radar'), 192);
+  return list => {
+    const h = pick(list);
+    if (h) {
+      strip.set(h.from ? centre(`${h.cs}  ${h.from} > ${h.to}`, 34) : centre(`${h.cs}  PRIVATE FLIGHT`, 34));
+      $('cC-needle').style.transform = `rotate(${-150 + Math.min(h.alt, 40000) / 40000 * 300}deg)`;
+      $('cC-altv').textContent = `${h.alt.toLocaleString('en-GB')} FT`;
+      $('cC-air').textContent = `${airlineOf(h)} · ${h.type}`;
+      $('cC-hp').style.transform = `rotate(${h.track}deg)`;
+      $('cC-trk').textContent = `${String(Math.round(h.track)).padStart(3, '0')}°`;
+      $('cC-sub').textContent = `${distTxt(h.dist)} MI · ${Math.round(h.gs)} KT`;
+      $('cC-look').textContent = `LOOK ${lookOf(h)}`;
+    } else strip.set(centre('CLEAR SKIES OVER ALX', 34));
+    radar(list, h, new Set(list.slice(0, 6).map(a => a.hex)));
+  };
+})();
+
+// ================= Layout 4: ARRIVING / LEAVING / PASSING =================
+const bands = (() => {
+  const W = [7, 9, 9, 9, 4, 4];
+  const make = id => { const rows = []; for (let i = 0; i < 3; i++) rows.push(flapRow($(id), W, 'md', null, 5)); return { rows, keep: slotKeeper(3) }; };
+  const B = { arr: make('dD-arr'), dep: make('dD-dep'), over: make('dD-over') };
+  return list => {
+    Object.entries(B).forEach(([cat, b]) => {
+      const mine = list.filter(a => a.cat === cat);
+      b.keep(mine.slice(0, 3).map(a => a.hex)).forEach((hx, i) => {
+        const a = mine.find(m => m.hex === hx);
+        b.rows[i].set(a ? [a.cs, a.from || '-', a.to || '-', airlineOf(a), a.type, distTxt(a.dist).padStart(4)] : [], i * 60);
+      });
+      if (!mine.length) b.rows[1].set(['', 'NONE', 'RIGHT', 'NOW']);
+    });
+  };
+})();
+
+const LAYOUTS = [
+  { id: 'hero', name: 'Overhead Now', render: hero,
+    open: [['r', 24, 24, 640, 552, 12], ['c', 848, 290, 160]],
+    plate: [758, 500, 180, 46, 'ALEX INTERNATIONAL', 'ALX · EST. 2026'],
+    text: [[848, 476, 'RANGE 25 MILES', 10, 4]] },
+  { id: 'gate', name: 'Gate Board', render: gate,
+    open: [['r', 24, 104, 976, 440, 10]],
+    text: [[512, 60, 'ALEX INTERNATIONAL', 32, 12], [512, 88, 'FLIGHTS OVERHEAD  ·  ALX', 11, 6], [512, 580, 'EST. 2026', 10, 6]] },
+  { id: 'cluster', name: 'Instrument Cluster', render: cluster,
+    open: [['c', 178, 250, 122], ['c', 512, 250, 192], ['c', 846, 250, 122], ['r', 152, 478, 720, 84, 10]],
+    text: [[178, 400, 'ALTITUDE', 11, 5], [512, 466, 'TRAFFIC  ·  25 MILES', 10, 5], [846, 400, 'LOOK HERE', 11, 5], [512, 586, 'ALEX INTERNATIONAL  ·  ALX', 10, 6]] },
+  { id: 'bands', name: 'Arriving / Leaving', render: bands,
+    open: [['r', 176, 30, 824, 166, 10], ['r', 176, 217, 824, 166, 10], ['r', 176, 404, 824, 166, 10]],
+    text: [[96, 108, 'ARRIVING', 15, 4], [96, 295, 'LEAVING', 15, 4], [96, 482, 'PASSING', 15, 4], [96, 502, 'OVER', 15, 4], [96, 584, 'ALX', 11, 6]],
+    icons: [[96, 80, 135], [96, 267, 45], [96, 452, 90]] },
+];
+
+// ================= Faceplate =================
+function drawFace() {
+  const L = LAYOUTS[li], mat = stage.dataset.face, wood = mat !== 'carbon';
+  const hole = o => o[0] === 'c'
+    ? `M${o[1]} ${o[2] - o[3]}A${o[3]} ${o[3]} 0 1 0 ${o[1]} ${o[2] + o[3]}A${o[3]} ${o[3]} 0 1 0 ${o[1]} ${o[2] - o[3]}Z`
+    : (([, x, y, w, h, r]) => `M${x + r} ${y}H${x + w - r}A${r} ${r} 0 0 1 ${x + w} ${y + r}V${y + h - r}A${r} ${r} 0 0 1 ${x + w - r} ${y + h}H${x + r}A${r} ${r} 0 0 1 ${x} ${y + h - r}V${y + r}A${r} ${r} 0 0 1 ${x + r} ${y}Z`)(o);
+  const d = 'M0 0H1024V600H0Z ' + L.open.map(hole).join(' ');
+  const metal = wood ? 'url(#brass)' : 'url(#alu)';
+  const ink = wood ? '#e2bd66' : '#d5d9de', inkOp = wood ? .9 : .75, hi = 'rgba(0,0,0,.55)';
+  let s = `<path fill-rule="evenodd" fill="${wood ? 'url(#wood)' : 'url(#carbon)'}" d="${d}"/>
+    <path fill-rule="evenodd" fill="${wood ? 'url(#grain)' : 'url(#gloss)'}" d="${d}"/>`;
+  L.open.forEach(o => {
+    s += o[0] === 'c'
+      ? `<circle cx="${o[1]}" cy="${o[2]}" r="${o[3] + 3}" fill="none" stroke="${metal}" stroke-width="6"/><circle cx="${o[1]}" cy="${o[2]}" r="${o[3] + 6.5}" fill="none" stroke="#000" stroke-opacity=".5"/>`
+      : `<rect x="${o[1] - 3}" y="${o[2] - 3}" width="${o[3] + 6}" height="${o[4] + 6}" rx="${o[5] + 3}" fill="none" stroke="${metal}" stroke-width="${wood ? 3 : 4}"/>`;
+  });
+  (L.text || []).forEach(([x, y, t, size, sp]) => {
+    s += `<text x="${x}" y="${y + 1}" font-size="${size}" letter-spacing="${sp}" text-anchor="middle" fill="${hi}" font-family="Oswald" font-weight="500">${t}</text>
+      <text x="${x}" y="${y}" font-size="${size}" letter-spacing="${sp}" text-anchor="middle" fill="${ink}" fill-opacity="${inkOp}" font-family="Oswald" font-weight="500">${t}</text>`;
+  });
+  (L.icons || []).forEach(([x, y, rot]) => {
+    s += `<path d="${PLANE}" transform="translate(${x} ${y}) rotate(${rot}) scale(2.2)" fill="${ink}" fill-opacity="${inkOp}"/>`;
+  });
+  if (L.plate) {
+    const [x, y, w, h, a, b] = L.plate;
+    s += `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="4" fill="${metal}" stroke="${wood ? '#6b4c12' : '#5b6168'}"/>
+      <text x="${x + w / 2}" y="${y + 20}" font-size="12" letter-spacing="3" text-anchor="middle" font-family="Oswald" fill="${wood ? '#4a3308' : '#2b2f34'}">${a}</text>
+      <text x="${x + w / 2}" y="${y + 37}" font-size="9" letter-spacing="3" text-anchor="middle" font-family="Oswald" fill="${wood ? '#4a3308' : '#2b2f34'}">${b}</text>`;
+  }
+  [[12, 12], [1012, 12], [12, 588], [1012, 588]].forEach(([x, y]) =>
+    s += `<circle cx="${x}" cy="${y}" r="5" fill="${metal}" stroke="${wood ? '#6b4c12' : '#4a4f55'}"/><path d="M${x - 3} ${y + 1.5}L${x + 3} ${y - 1.5}" stroke="#000" stroke-opacity=".5"/>`);
+  $('faceBody').innerHTML = s;
+}
+
+// ================= Demo traffic =================
+const POOL = [
+  ['EZY417', 'Luton', 'Geneva', 'easyJet', 'A20N', 9000, 290],
+  ['RYR45B', 'Stansted', 'Dublin', 'Ryanair', 'B38M', 14000, 330],
+  ['BAW87G', 'Edinburgh', 'London', 'British Airways', 'A320', 23000, 380],
+  ['UAE1', 'Dubai', 'London', 'Emirates', 'A388', 11000, 280],
+  ['WZZ3AB', 'Luton', 'Budapest', 'Wizz Air', 'A21N', 7000, 250],
+  ['TOM42K', 'Luton', 'Tenerife', 'TUI Airways', 'B38M', 17000, 350],
+  ['DLH9EA', 'Frankfurt', 'Manchester', 'Lufthansa', 'A320', 36000, 450],
+  ['GLXRS', '', '', '', 'C68A', 21000, 370],
+  ['FDX29', 'Stansted', 'Memphis', 'FedEx', 'B77L', 29000, 420],
+  ['QTR3', 'Doha', 'London', 'Qatar Airways', 'B77W', 12000, 300],
+  ['EXS54P', 'Leeds', 'Malaga', 'Jet2.com', 'B733', 37000, 460],
+  ['AAL100', 'New York', 'London', 'American Airlines', 'B77W', 15000, 320],
+  ['KLM24H', 'Amsterdam', 'Birmingham', 'KLM Royal Dutch Airlines', 'E190', 33000, 410],
+  ['VIR3', 'London', 'New York', 'Virgin Atlantic', 'A35K', 16000, 340],
+  ['SWR5HY', 'Zürich', 'London', 'Swiss International Air Lines', 'A20N', 13000, 300],
+  ['ETD19', 'Abu Dhabi', 'Manchester', 'Etihad Airways', 'B789', 39000, 480],
+];
+const LOCAL = ['Luton', 'Stansted', 'London'];   // on the Pi this comes from airport distance instead
+const rand = (a, b) => a + Math.random() * (b - a);
+const sim = []; let next = 0, serial = 0, today = 137;
+function spawn(p, edge) {
+  let d; do { d = POOL[next++ % POOL.length]; } while (sim.some(o => o !== p && o.d === d));
+  p.d = d; p.hex = 'h' + (serial++);
+  const a = rand(0, Math.PI * 2), r = edge ? RANGE : rand(2, 22);
+  p.x = r * Math.sin(a); p.y = r * Math.cos(a);
+  p.track = edge ? (a * 180 / Math.PI + 180 + rand(-35, 35) + 360) % 360 : rand(0, 360);
+  if (edge) today++;
+}
+for (let i = 0; i < 11; i++) { const p = {}; spawn(p, false); sim.push(p); }
+const SPEED = 6;   // demo runs faster than real life
+let last = performance.now();
+function tick() {
+  const now = performance.now(), dt = (now - last) / 1000; last = now;
+  sim.forEach(p => {
+    const h = p.track * Math.PI / 180, d = p.d[6] * KT * dt * SPEED;
+    p.x += Math.sin(h) * d; p.y += Math.cos(h) * d;
+    if (Math.hypot(p.x, p.y) > RANGE + 1) spawn(p, true);
+  });
+  const list = sim.map(p => ({ hex: p.hex, cs: p.d[0], from: p.d[1], to: p.d[2], airline: p.d[3], type: p.d[4], alt: p.d[5], gs: p.d[6],
+      track: p.track, x: p.x, y: p.y, dist: Math.hypot(p.x, p.y),
+      cat: LOCAL.includes(p.d[2]) ? 'arr' : LOCAL.includes(p.d[1]) ? 'dep' : 'over' }))
+    .filter(a => a.dist <= RANGE).sort((a, b) => a.dist - b.dist);
+  LAYOUTS[li].render(list);
+  document.querySelectorAll('[data-today]').forEach(e => e.textContent = today);
+}
+
+// ================= Controls =================
+const stage = $('stage');
+let li = 0;
+function setLayout(i) {
+  li = (i + LAYOUTS.length) % LAYOUTS.length;
+  stage.dataset.layout = LAYOUTS[li].id; $('layoutName').textContent = LAYOUTS[li].name;
+  drawFace(); tick();
+}
+function setFace(f) {
+  stage.dataset.face = f;
+  [['faceWood', 'wood'], ['faceCarbon', 'carbon'], ['faceNone', 'none']].forEach(([id, v]) => $(id).classList.toggle('off', v !== f));
+  drawFace();
+}
+$('prevL').onclick = () => setLayout(li - 1); $('nextL').onclick = () => setLayout(li + 1);
+$('faceWood').onclick = () => setFace('wood'); $('faceCarbon').onclick = () => setFace('carbon'); $('faceNone').onclick = () => setFace('none');
+addEventListener('keydown', e => { if (e.key === 'ArrowRight') setLayout(li + 1); if (e.key === 'ArrowLeft') setLayout(li - 1); });
+const q = new URLSearchParams(location.search);
+function clock() { const t = new Date(), s = `${String(t.getHours()).padStart(2, '0')}:${String(t.getMinutes()).padStart(2, '0')}`; document.querySelectorAll('[data-clock]').forEach(e => e.textContent = s); }
+function fit() { const v = $('viewport'); stage.style.transform = `scale(${Math.min(v.clientWidth / 1024, v.clientHeight / 600)})`; }
+addEventListener('resize', fit); fit();
+setFace(q.get('face') || 'wood');
+setLayout(Math.max(0, LAYOUTS.findIndex(l => l.id === q.get('layout'))));
+clock(); setInterval(clock, 1000); setInterval(tick, 1000);
+</script>
+</body>
+</html>

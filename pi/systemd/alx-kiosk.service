@@ -1,0 +1,31 @@
+[Unit]
+Description=ALX Departures screen (Chromium in a bare kiosk window)
+After=alx.service systemd-user-sessions.service
+Wants=alx.service
+Conflicts=getty@tty1.service
+StartLimitIntervalSec=0
+
+[Service]
+User=alx
+PAMName=login
+TTYPath=/dev/tty1
+TTYReset=yes
+TTYVHangup=yes
+TTYVTDisallocate=yes
+StandardInput=tty-fail
+StandardOutput=journal
+StandardError=journal
+UtmpIdentifier=tty1
+UtmpMode=user
+# Wait (up to a minute) for the data service, so the board opens straight onto live data
+ExecStartPre=-/usr/bin/python3 /opt/alx/bin/alxctl wait-server
+ExecStart=/usr/bin/cage -s -- @CHROMIUM@ --kiosk --incognito --ozone-platform=wayland \
+  --noerrdialogs --disable-infobars --no-first-run --disable-session-crashed-bubble \
+  --disable-features=Translate,TranslateUI,MediaRouter --disable-pinch --overscroll-history-navigation=0 \
+  --check-for-update-interval=31536000 --password-store=basic --disk-cache-size=1 --hide-scrollbars \
+  "http://localhost:8080/?kiosk"
+Restart=always
+RestartSec=2
+
+[Install]
+WantedBy=graphical.target

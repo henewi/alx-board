@@ -1,0 +1,34 @@
+{
+  "_comment": "Copy to config.json and change what you need. Anything left out uses the defaults in server.py.",
+
+  "_location": "Normally leave lat/lon null: the board uses the postcode entered for each Wi-Fi network. Set them only to pin it for good.",
+  "lat": null,
+  "lon": null,
+  "place": null,
+
+  "_theme": "Board style: solari, terminal, ivory, cockpit, crt, racing, jetage, paper, wavepunk, graphite or sunflower (see STYLES.md)",
+  "theme": "solari",
+
+  "_birthday": "Alex's birthday as MM-DD, e.g. 11-22. Shows a birthday surprise on the day. null to turn off.",
+  "birthday": "11-22",
+  "name": "Alex",
+
+  "_radius": "Starting radar range in miles. Alex can switch between 10, 15 and 25 on the phone page.",
+  "radius_mi": 10,
+  "poll_s": 8,
+  "port": 8080,
+
+  "_map": "Optional: a free CARTO key gives a darker, cleaner map than the default OpenStreetMap style. https://carto.com/basemaps/apikey/",
+  "carto_key": "",
+  "carto_style": "dark_nolabels",
+
+  "_contact": "Sent to the free data services so they know who's asking. Planespotters requires a contact URL or email.",
+  "contact": "https://yheaero.com",
+
+  "_updates": "Remote updates come from github.com/henewi/alx-board releases (see UPDATES.md). Set update_repo to \"\" to turn them off. Token only needed for a private repo.",
+  "update_repo": "henewi/alx-board",
+  "update_token": "",
+
+  "_cache": "Where location, route and map caches are saved. On the Pi, set this to a writable folder once the SD card is read-only.",
+  "cache_dir": null
+}

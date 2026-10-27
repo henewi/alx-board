@@ -1,0 +1,22 @@
+[Unit]
+Description=ALX Departures flight data service
+After=network.target NetworkManager.service
+Wants=NetworkManager.service
+StartLimitIntervalSec=0
+
+[Service]
+# Checks in with systemd every 15 s while healthy; if it stops (hang, crash), systemd restarts it.
+Type=notify
+NotifyAccess=main
+WatchdogSec=90
+Restart=always
+RestartSec=3
+Environment=ALX_CONFIG=/opt/alx/data/config.json
+Environment=PYTHONDONTWRITEBYTECODE=1
+WorkingDirectory=/opt/alx/current
+ExecStart=/usr/bin/python3 /opt/alx/current/server.py
+TimeoutStartSec=60
+TimeoutStopSec=20
+
+[Install]
+WantedBy=multi-user.target

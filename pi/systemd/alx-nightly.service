@@ -1,0 +1,7 @@
+[Unit]
+Description=ALX Departures: nightly update check and quiet restart
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 /opt/alx/bin/alxctl nightly
+TimeoutStartSec=20min

@@ -1,0 +1,6 @@
+[Unit]
+Description=ALX Departures: restart the screen if it has frozen
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 /opt/alx/bin/alxctl watchdog
