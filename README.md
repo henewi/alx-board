@@ -60,7 +60,7 @@ Copy `config.example.json` to `config.json` and edit:
 
 1. **Location:** the postcode saved for the Wi-Fi network it's on (looked up once on postcodes.io, or OpenStreetMap Nominatim outside the UK, and remembered). If there's no postcode yet, it uses free IP geolocation (ipwho.is, then ipapi.co, then ip-api.com), which can be 20–40 miles out, then the last saved location. A `lat`/`lon` in `config.json` overrides everything.
 2. **Aircraft:** every 8 seconds from adsb.lol, falling back to adsb.fi, then airplanes.live. A feed that refuses or says "slow down" is left alone for a while. The feed in use is credited under the radar, as adsb.fi asks. Planes on the ground or outside the radar range are dropped.
-3. **Routes and airlines:** looked up on adsbdb by callsign, nearest planes first, and cached for a day. Private flights show as PRIVATE.
+3. **Routes and airlines:** looked up by callsign on adsbdb, then hexdb.io (a different database) if adsbdb doesn't know it, nearest planes first, cached for a day. A route that doesn't fit where the plane actually is (airlines reuse callsigns) is ignored. If no database knows a flight but it's low and clearly climbing out of, or descending into, a nearby airport, that end is filled in ("DEPARTED LUTON", "ARRIVING LUTON") from the OurAirports list in `airports.json`. Private flights show as PRIVATE.
 4. **Photos:** the nearest aircraft's photo comes from Planespotters.net by its transponder code. Their free API requires the photographer's credit beside the photo, a QR code to the photo page on screens nobody can click, images loaded straight from their URLs (never saved or re-hosted), and a contact address in the request (`contact` in `config.json`). All of that is built in. With no photo available, a silhouette shows instead.
 5. **Map:** the few tiles around the location are downloaded once and cached, then reused, so the map still shows after a reboot with no internet.
 6. **Page:** polls `/api/state` every 5 seconds and moves the planes smoothly in between using each one's speed and heading.
@@ -186,4 +186,4 @@ Chromium is launched with `--incognito` so aircraft photos are held in memory on
 
 ## Credits
 
-Map data © OpenStreetMap contributors (and © CARTO if a key is set). This credit must stay on screen. Flight data from adsb.lol and airplanes.live; routes from adsbdb; weather from Open-Meteo; ISS orbit data from CelesTrak (orbit maths by satellite.js, MIT licence). These are free community services, so keep the polling interval sensible.
+Map data © OpenStreetMap contributors (and © CARTO if a key is set). This credit must stay on screen. Flight data from adsb.lol and airplanes.live; routes from adsbdb and hexdb.io; airport list from OurAirports (public domain); weather from Open-Meteo; ISS orbit data from CelesTrak (orbit maths by satellite.js, MIT licence). These are free community services, so keep the polling interval sensible.

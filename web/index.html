@@ -1152,7 +1152,8 @@ function showHero(t, located) {
   set('lookText', `LOOK ${lookOf(t)}`);
   $('lookArrow').style.opacity = 1; $('lookArrow').style.transform = `rotate(${b}deg)`;
   set('hRoute', r && (r.from.city || r.to.city)
-    ? `${clean(cityOf(r.from) || '?')}  →  ${clean(cityOf(r.to) || '?')}`
+    ? (!cityOf(r.to) ? `DEPARTED ${clean(cityOf(r.from))}` : !cityOf(r.from) ? `ARRIVING ${clean(cityOf(r.to))}`
+       : `${clean(cityOf(r.from))}  →  ${clean(cityOf(r.to))}`)
     : (isAirlineCallsign(a.callsign) ? 'ROUTE NOT LISTED' : 'PRIVATE FLIGHT'));
   set('hFlight', a.callsign || a.reg || (a.hex || '').toUpperCase());
   set('hAir', airlineOf(a) || clean(a.callsign).slice(0, 3) || '—');

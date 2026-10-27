@@ -91,13 +91,21 @@ def main():
 
     # Routes, aircraft details and photos for the nearest few
     airline = next((a for a in planes if a["callsign"] and S.AIRLINE_CALLSIGN.match(a["callsign"])), None)
-    if airline:
-        def route():
-            r = S.lookup_route(airline["callsign"])
-            if not r:
-                return f"{airline['callsign']}: no route known (fine for some flights)"
-            return f"{airline['callsign']}: {r['from']['city'] or r['from']['code']} → {r['to']['city'] or r['to']['code']} · {r.get('airline') or ''}"
-        check("Route adsbdb", route)
+    airlines = [a for a in planes if a["callsign"] and S.AIRLINE_CALLSIGN.match(a["callsign"])][:6]
+    if airlines:
+        def hexdb():
+            d = S.fetch_json(S.CFG["route2_url"].format(cs=airlines[0]["callsign"]), 6)
+            r = S.parse_hexdb(d)
+            return f"{airlines[0]['callsign']}: {r['from']['city']} → {r['to']['city']}" if r else f"reply: {str(d)[:80]}"
+        def routes():
+            found = []
+            for a in airlines:
+                r = S.lookup_route(a["callsign"], a) or S.infer_route(a)
+                found.append(f"{a['callsign']} " + (f"{r['from']['city'] or '…'}→{r['to']['city'] or '…'}" if r else "unknown"))
+            known = sum(1 for f in found if not f.endswith("unknown"))
+            return f"{known} of {len(found)} routes found: " + ", ".join(found)
+        check("Route hexdb", hexdb)
+        check("Routes (all sources)", routes)
     else:
         print("SKIP  Route adsbdb              no airline flight overhead right now")
     if planes:

@@ -67,6 +67,8 @@ DEFAULTS = {
         "https://api.airplanes.live/v2/point/{lat}/{lon}/{nm}",
     ],
     "route_url": "https://api.adsbdb.com/v0/callsign/{cs}",
+    # Second route database (a different source: PlaneBase/PlanePlotter), tried when adsbdb doesn't know a flight
+    "route2_url": "https://hexdb.io/api/v2/routes/{cs}",
     "geo_urls": [
         "https://ipwho.is/",
         "https://ipapi.co/json/",
@@ -299,6 +301,86 @@ def parse_route(d):
             "to": airport(fr.get("destination"))}
 
 
+# ---------- airports (OurAirports, public domain): for checking routes and filling gaps ----------
+
+try:
+    with open(os.path.join(HERE, "airports.json"), encoding="utf-8") as _f:
+        AIRPORTS = [{"code": iata or icao, "icao": icao, "name": name, "city": (city or name).split(",")[0].strip(),
+                     "lat": lat, "lon": lon} for iata, icao, name, city, lat, lon in json.load(_f)]
+except Exception:
+    AIRPORTS = []
+AIRPORT_BY_ICAO = {ap["icao"]: ap for ap in AIRPORTS}
+
+
+def miles(lat1, lon1, lat2, lon2):
+    p1, p2 = math.radians(lat1), math.radians(lat2)
+    h = math.sin((p2 - p1) / 2) ** 2 + math.cos(p1) * math.cos(p2) * math.sin(math.radians(lon2 - lon1) / 2) ** 2
+    return 3958.8 * 2 * math.asin(math.sqrt(min(1, h)))
+
+
+def bearing(lat1, lon1, lat2, lon2):
+    p1, p2, dl = math.radians(lat1), math.radians(lat2), math.radians(lon2 - lon1)
+    y = math.sin(dl) * math.cos(p2)
+    x = math.cos(p1) * math.sin(p2) - math.sin(p1) * math.cos(p2) * math.cos(dl)
+    return (math.degrees(math.atan2(y, x)) + 360) % 360
+
+
+def parse_hexdb(d):
+    def airport(a):
+        a = a or {}
+        known = AIRPORT_BY_ICAO.get(a.get("icao") or "")
+        return {"code": a.get("iata") or a.get("icao") or "",
+                "city": known["city"] if known else (a.get("name") or ""),
+                "name": a.get("name") or "", "lat": a.get("latitude"), "lon": a.get("longitude")}
+    if not d or not d.get("origin") or not d.get("destination"):
+        return None
+    return {"airline": "", "airline_icao": "", "flight_iata": "",
+            "from": airport(d["origin"]), "to": airport(d["destination"])}
+
+
+def plausible(r, a):
+    """A route database can be out of date (airlines reuse callsigns). Only trust a route if the plane
+    is roughly on the way from one airport to the other, or near one of them."""
+    try:
+        f, t = r["from"], r["to"]
+        if None in (f["lat"], f["lon"], t["lat"], t["lon"], a.get("lat"), a.get("lon")):
+            return True
+        d_from = miles(a["lat"], a["lon"], f["lat"], f["lon"])
+        d_to = miles(a["lat"], a["lon"], t["lat"], t["lon"])
+        if min(d_from, d_to) < 40:
+            return True
+        return d_from + d_to <= miles(f["lat"], f["lon"], t["lat"], t["lon"]) * 1.25 + 80
+    except Exception:
+        return True
+
+
+def infer_route(a):
+    """No route known: if the plane is low and clearly climbing away from, or descending into, a
+    nearby airport, that end of the route is certain enough to show."""
+    alt, vs, trk = a.get("alt"), a.get("vs"), a.get("track")
+    if alt is None or vs is None or trk is None or alt > 7000 or abs(vs) < 300 or a.get("lat") is None:
+        return None
+    best = None
+    for ap in AIRPORTS:
+        if abs(ap["lat"] - a["lat"]) > 0.4 or abs(ap["lon"] - a["lon"]) > 0.7:
+            continue
+        d = miles(a["lat"], a["lon"], ap["lat"], ap["lon"])
+        if d <= (15 if vs > 0 else 22) and (best is None or d < best[0]):
+            best = (d, ap)
+    if not best:
+        return None
+    d, ap = best
+    end = {k: ap[k] for k in ("code", "city", "name", "lat", "lon")}
+    blank = {"code": "", "city": "", "name": "", "lat": None, "lon": None}
+    away = bearing(ap["lat"], ap["lon"], a["lat"], a["lon"])           # direction from the airport to the plane
+    turn = lambda x, y: abs((x - y + 180) % 360 - 180)
+    if vs > 0 and (d < 3 or turn(trk, away) < 70):
+        return {"airline": "", "airline_icao": "", "flight_iata": "", "from": end, "to": blank, "inferred": True}
+    if vs < 0 and (d < 3 or turn(trk, (away + 180) % 360) < 60):
+        return {"airline": "", "airline_icao": "", "flight_iata": "", "from": blank, "to": end, "inferred": True}
+    return None
+
+
 def cached_route(cs):
     hit = ROUTES.get(cs)
     if not hit:
@@ -307,17 +389,34 @@ def cached_route(cs):
     return (time.time() - hit["t"] < max_age), hit["r"]
 
 
-def lookup_route(cs):
-    """Network lookup. Unknown callsigns are cached as None so we don't ask again."""
+def lookup_route(cs, a=None):
+    """Network lookup: adsbdb, then hexdb, keeping only a route that fits where the plane is.
+    Unknown callsigns are cached as None so we don't ask again for a while."""
     if not AIRLINE_CALLSIGN.match(cs):   # private, military, registration-style
         ROUTES[cs] = {"t": time.time(), "r": None}
         return None
-    try:
-        r = parse_route(fetch_json(CFG["route_url"].format(cs=cs), 6))
-    except urllib.error.HTTPError as e:
-        if e.code != 404:
-            raise
-        r = None
+    r, airline, failed = None, None, None
+    for key, parse in (("route_url", parse_route), ("route2_url", parse_hexdb)):
+        if not CFG.get(key):
+            continue
+        try:
+            got = parse(fetch_json(CFG[key].format(cs=urllib.parse.quote(cs)), 6))
+        except urllib.error.HTTPError as e:
+            if e.code != 404:
+                failed = e
+            continue
+        except Exception as e:
+            failed = e
+            continue
+        if got and got.get("airline"):
+            airline = got                       # adsbdb names the airline even when its route is out of date
+        if got and (a is None or plausible(got, a)):
+            r = got
+            break
+    if r and not r.get("airline") and airline:
+        r.update(airline=airline["airline"], airline_icao=airline["airline_icao"], flight_iata=airline["flight_iata"])
+    if r is None and failed is not None:
+        raise failed                            # couldn't ask: try again next time rather than caching "unknown"
     ROUTES[cs] = {"t": time.time(), "r": r}
     return r
 
@@ -420,6 +519,7 @@ def build(raw, loc):
             "track": a.get("track", a.get("true_heading")),
             "vs": a.get("baro_rate", a.get("geom_rate")),       # ft/min, + climbing
             "x": round(x, 3), "y": round(y, 3), "dist": round(dist, 2),
+            "lat": round(lat, 4), "lon": round(lon, 4),
             "route": None,
         })
     out.sort(key=lambda a: a["dist"])
@@ -727,15 +827,16 @@ def poller():
             for a in aircraft:                        # nearest first
                 cs = a["callsign"]
                 if not cs:
+                    a["route"] = infer_route(a)
                     continue
                 fresh, r = cached_route(cs)
                 if not fresh and lookups < CFG["route_lookups_per_cycle"]:
                     lookups += 1
                     try:
-                        r = lookup_route(cs)
+                        r = lookup_route(cs, a)
                     except Exception as e:
                         log(f"route lookup failed {cs}: {e}")
-                a["route"] = r
+                a["route"] = r or infer_route(a)
 
             update_logbook(aircraft)
             update_today(aircraft, loc)
