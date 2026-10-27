@@ -62,8 +62,8 @@ DEFAULTS = {
     "cache_dir": None,
     # Free ADS-B feeds, tried in order. adsb.fi asks for credit on screen (shown under the radar).
     "flight_urls": [
-        "https://api.adsb.lol/v2/point/{lat}/{lon}/{nm}",
         "https://opendata.adsb.fi/api/v2/lat/{lat}/lon/{lon}/dist/{nm}",
+        "https://api.adsb.lol/v2/point/{lat}/{lon}/{nm}",
         "https://api.airplanes.live/v2/point/{lat}/{lon}/{nm}",
     ],
     "route_url": "https://api.adsbdb.com/v0/callsign/{cs}",
@@ -203,8 +203,8 @@ GEO_FAIL = {"t": 0.0}                       # last time a postcode lookup couldn
 
 def lookup_postcode(pc):
     """Cached lookup. Returns the place, {"missing": True} if it doesn't exist, or None if offline."""
-    if pc in GEO:
-        return GEO[pc]
+    if pc in GEO and (GEO[pc].get("missing") or GEO[pc].get("v") == 2):
+        return GEO[pc]                       # (older saved lookups without "v" are redone once, for a better town name)
     _, kind, err = postcode.normalise(pc)
     if err:
         GEO[pc] = {"missing": True}

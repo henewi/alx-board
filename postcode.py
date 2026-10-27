@@ -9,7 +9,8 @@ Lookups, cached forever per postcode:
   * UK full postcode   -> postcodes.io             (free, no key)
   * UK district (SG5)  -> postcodes.io outcodes
   * anywhere else      -> OpenStreetMap Nominatim  (free, one lookup per postcode, as their policy asks)
-  * the town name      -> Nominatim reverse lookup, falling back to postcodes.io's district
+  * the town name      -> postcodes.io's built-up area or parish (UK), else a Nominatim reverse lookup,
+                          else the district
 """
 
 import re
@@ -72,7 +73,13 @@ def geocode(pc, kind, fetch_json, cfg, country=None):
         district = r.get("admin_district")
         district = (district[0] if isinstance(district, list) and district else district) or ""
         parish = r.get("parish") if isinstance(r.get("parish"), str) else ""
-        city = district if not parish or "unparished" in parish.lower() else parish
+        if parish and "unparished" in parish.lower():
+            parish = ""
+        bua = r.get("bua") if isinstance(r.get("bua"), str) else ""   # built-up area, e.g. "Hitchin"
+        city = bua or parish
+        if city:
+            return {"lat": round(lat, 4), "lon": round(lon, 4), "city": city, "v": 2}
+        city = district
     else:
         params = {"postalcode": pc, "format": "jsonv2", "limit": 1, "addressdetails": 1}
         if country:
@@ -88,4 +95,4 @@ def geocode(pc, kind, fetch_json, cfg, country=None):
         city = _town(rev.get("address") or {}, broad=False) or city
     except Exception:
         pass
-    return {"lat": round(lat, 4), "lon": round(lon, 4), "city": city or pc}
+    return {"lat": round(lat, 4), "lon": round(lon, 4), "city": city or pc, "v": 2}
