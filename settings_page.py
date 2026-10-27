@@ -74,7 +74,7 @@ def page(current, name="Alex", place=None, version="", radius=10):
     <span class="flaps">{flaps}</span>
     <span class="dial" style="background:radial-gradient(circle,{rbg},#000);border-color:{rline}"><b style="background:{rline}"></b></span>
   </span>
-  <span class="txt"><b>{html.escape(label)}</b><small>{html.escape(desc)}</small></span>
+  <span class="txt"><b>{html.escape(label)}</b></span>
   <span class="tick">✓</span>
 </button>""")
     json_notes = json.dumps({str(k): v for k, v in RANGE_NOTES.items()})
