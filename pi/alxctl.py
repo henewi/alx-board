@@ -92,6 +92,13 @@ def health(p=None, timeout=5):
         return None
 
 
+def version_key(tag):
+    """'v1.10' -> (1, 10). Anything without numbers sorts lowest."""
+    import re
+    nums = [int(n) for n in re.findall(r"\d+", str(tag or ""))]
+    return tuple(nums) if nums else (-1,)
+
+
 def current_version():
     try:
         with open(os.path.join(CURRENT, "VERSION")) as f:
@@ -309,8 +316,8 @@ def cmd_update():
     if not tag or "/" in tag or tag.startswith("."):
         log("update check: release has no usable tag")
         return False
-    if tag == current_version():
-        log(f"up to date ({tag})")
+    if version_key(tag) <= version_key(current_version()):
+        log(f"up to date (running {current_version()}, latest release {tag})")
         return False
     if tag in st.get("bad", []):
         log(f"{tag} failed before, skipping it. Publish a new release to try again.")
