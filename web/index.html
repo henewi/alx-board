@@ -225,7 +225,7 @@
   footer > span{white-space:nowrap}
   .live{color:var(--accent)}
   .dot{display:inline-block;width:8px;height:8px;margin-right:7px;border-radius:50%;background:var(--live);
-    animation:pulse 2s ease-in-out infinite}
+    animation:pulse 2s steps(6) infinite}
   .stale .dot{background:#ff6b3d}
   @keyframes pulse{50%{opacity:.25}}
   #inRange{overflow:hidden;text-overflow:ellipsis}
@@ -257,13 +257,13 @@
   .rdir{fill:var(--radar-line);fill-opacity:.7;font-size:11px}
   .rnum,.rdir{font-family:var(--font)}
   .home{fill:var(--radar-near)}
-  .home-pulse{fill:none;stroke:var(--radar-near);transform-box:fill-box;transform-origin:center;animation:ping 2.4s ease-out infinite}
+  .home-pulse{fill:none;stroke:var(--radar-near);transform-box:fill-box;transform-origin:center;animation:ping 2.4s steps(8) infinite}
   @keyframes ping{from{transform:scale(1);opacity:.8}to{transform:scale(5);opacity:0}}
   .sweep{border-radius:50%;
     background:conic-gradient(from 0deg,transparent 0deg 285deg,var(--sweep-faint) 320deg,var(--sweep) 360deg);
-    animation:spin 5s linear infinite}
+    animation:spin 5s steps(100) infinite;will-change:transform}
   @keyframes spin{to{transform:rotate(360deg)}}
-  .plane{transition:transform 1s linear}
+  .plane{}   /* no glide: planes move 1-2 px a second, and gliding SVG redraws the whole radar 60 times a second */
   .plane.warp{transition:none}
   .plane.far{opacity:.55}
   .plane.far text{display:none}
@@ -280,22 +280,22 @@
   .row.first-past{margin-top:9px}
   .row.first-past::after{content:'EARLIER TODAY';position:absolute;left:0;top:-13px;font-size:8px;letter-spacing:.3em;color:var(--dim)}
   #hero.alert{border-left-color:var(--radar-near)}
-  #hero.alert .h-kick{animation:pulse 1.6s ease-in-out infinite}
+  #hero.alert .h-kick{animation:pulse 1.6s steps(6) infinite}
   #hero.emerg{border-left-color:#ff3b30}
-  #hero.emerg .h-kick{color:#ff3b30;animation:pulse .9s ease-in-out infinite}
+  #hero.emerg .h-kick{color:#ff3b30;animation:pulse .9s steps(6) infinite}
   .trail{fill:none;stroke:var(--radar-ink);stroke-opacity:.28;stroke-width:1.2;stroke-linejoin:round;stroke-linecap:round}
   .trail.near{stroke:var(--radar-near);stroke-opacity:.6}
   .plane.nolabel text{display:none}
-  .plane.rare path{fill:var(--radar-near);animation:pulse 1.4s ease-in-out infinite}
+  .plane.rare path{fill:var(--radar-near);animation:pulse 1.4s steps(6) infinite}
   .plane.emerg path,.plane.emerg text{fill:#ff3b30}
-  .plane.emerg path{animation:pulse .9s ease-in-out infinite}
-  .iss-dot{fill:#fff;stroke:var(--accent);stroke-width:2;animation:pulse 1.2s ease-in-out infinite}
+  .plane.emerg path{animation:pulse .9s steps(6) infinite}
+  .iss-dot{fill:#fff;stroke:var(--accent);stroke-width:2;animation:pulse 1.2s steps(6) infinite}
   .iss-txt{font-family:var(--font);font-size:10px;letter-spacing:.08em;fill:var(--accent)}
   .qr-bg{fill:var(--qr-bg, var(--accent))}
   .qr-ink{fill:#0b0b0b}
   #ticker{flex:1;min-width:0;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;transition:opacity .3s}
   #ticker.alert{color:var(--accent)}
-  #ticker.emerg{color:#ff3b30;animation:pulse .9s ease-in-out infinite}
+  #ticker.emerg{color:#ff3b30;animation:pulse .9s steps(6) infinite}
 
   /* ---------- Boarding-pass splash while starting up ---------- */
   #splash{position:absolute;left:24px;top:30px;width:640px;height:540px;z-index:1;display:flex;align-items:center;justify-content:center;
@@ -315,7 +315,7 @@
   .pass-stub .big{font-size:40px;color:var(--accent);letter-spacing:.12em;font-weight:600;line-height:1}
   .barcode{width:110px;height:46px;opacity:.85;background:repeating-linear-gradient(90deg,var(--title) 0 2px,transparent 2px 4px,
     var(--title) 4px 5px,transparent 5px 8px,var(--title) 8px 11px,transparent 11px 13px)}
-  #passStatus{font-size:11px;letter-spacing:.3em;color:var(--accent);animation:pulse 1.6s ease-in-out infinite;white-space:nowrap}
+  #passStatus{font-size:11px;letter-spacing:.3em;color:var(--accent);animation:pulse 1.6s steps(6) infinite;white-space:nowrap}
 
   /* ---------- Wi-Fi setup screen (only when there's no working connection) ---------- */
   #wifi{position:absolute;left:24px;top:30px;width:640px;height:540px;z-index:1;display:none;flex-direction:column;
@@ -342,7 +342,7 @@
   .wf-step b{font-weight:500;font-size:16px;letter-spacing:.16em;color:var(--accent)}
   .wf-step span{font-size:13px;letter-spacing:.05em;color:var(--text);line-height:1.5}
   .wf-step em{font-style:normal;color:var(--title);font-size:16px;letter-spacing:.1em}
-  #wfStatus,#plStatus{font-size:13px;letter-spacing:.3em;color:var(--accent);animation:pulse 1.6s ease-in-out infinite}
+  #wfStatus,#plStatus{font-size:13px;letter-spacing:.3em;color:var(--accent);animation:pulse 1.6s steps(6) infinite}
   #wfError{min-height:15px;font-size:12px;letter-spacing:.12em;color:#ff6b5a}
 
   /* ---------- Fixed sizes, so every style has exactly the same layout (the physical faceplate never moves) ---------- */
