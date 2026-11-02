@@ -261,9 +261,9 @@
   @keyframes ping{from{transform:scale(1);opacity:.8}to{transform:scale(5);opacity:0}}
   .sweep{border-radius:50%;
     background:conic-gradient(from 0deg,transparent 0deg 285deg,var(--sweep-faint) 320deg,var(--sweep) 360deg);
-    animation:spin 5s steps(100) infinite;will-change:transform}
+    animation:spin 5s steps(175) infinite;will-change:transform}   /* 35 frames a second */
   @keyframes spin{to{transform:rotate(360deg)}}
-  .plane{}   /* no glide: planes move 1-2 px a second, and gliding SVG redraws the whole radar 60 times a second */
+  .plane{transition:transform 1s steps(15)}   /* glide at 15 steps a second: smooth, at a quarter of the work of a 60 fps glide */
   .plane.warp{transition:none}
   .plane.far{opacity:.55}
   .plane.far text{display:none}
