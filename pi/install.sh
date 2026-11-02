@@ -88,6 +88,18 @@ CFGTXT="$BOOT/config.txt"; CMD="$BOOT/cmdline.txt"
 [ -f "$CMD.alx-backup" ] || cp "$CMD" "$CMD.alx-backup"
 grep -q '^disable_splash=1' "$CFGTXT" || echo 'disable_splash=1' >> "$CFGTXT"
 grep -q '^dtparam=watchdog=on' "$CFGTXT" || echo 'dtparam=watchdog=on' >> "$CFGTXT"
+grep -q '^avoid_warnings=1' "$CFGTXT" || echo 'avoid_warnings=1' >> "$CFGTXT"    # no lightning-bolt or temperature icons
+# The bootloader's own diagnostics screen: turn it off so nothing shows before the board
+if command -v rpi-eeprom-config >/dev/null 2>&1; then
+  EEPROM_NOW="$(rpi-eeprom-config 2>/dev/null || true)"
+  if [ -n "$EEPROM_NOW" ] && ! printf '%s\n' "$EEPROM_NOW" | grep -q '^DISABLE_HDMI=1'; then
+    EEPROM_NEW="$(mktemp)"
+    printf '%s\n' "$EEPROM_NOW" | grep -v '^DISABLE_HDMI=' > "$EEPROM_NEW"
+    echo 'DISABLE_HDMI=1' >> "$EEPROM_NEW"
+    rpi-eeprom-config --apply "$EEPROM_NEW" && echo "Bootloader screen turned off (takes effect after the reboot)"
+    rm -f "$EEPROM_NEW"
+  fi
+fi
 sed -i 's/console=tty1/console=tty3/' "$CMD"
 for opt in quiet loglevel=3 logo.nologo vt.global_cursor_default=0 consoleblank=0; do
   grep -qw -- "$opt" "$CMD" || sed -i "1 s/\$/ $opt/" "$CMD"
