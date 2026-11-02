@@ -1,0 +1,8 @@
+ALX Departures faceplate cut-outs (all mm, origin = top-left corner of the lit picture area)
+Picture area (reference): 155.1 x 86.4
+Board window, image edge: x 3.64  y 4.32  96.94 x 77.76
+Board window, CUT (0.5 mm inside): x 4.14  y 4.82  95.94 x 76.76
+Radar, image edge: centre x 128.44  y 38.88  diameter 48.47
+Radar, CUT (0.5 mm inside): centre x 128.44  y 38.88  diameter 47.47
+Gap between window and porthole (cut edges): 4.64
+Picture-area right edge to porthole (cut): 2.92;  top 15.15;  bottom 23.79

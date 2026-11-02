@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="179.1mm" height="124.4mm" viewBox="-12 -12 179.1 124.4">
+<style>text{font-family:Arial,sans-serif;font-size:2.6px;fill:#333}.ref{fill:none;stroke:#888;stroke-width:.2;stroke-dasharray:1.2 .8}
+.img{fill:none;stroke:#3a8fd9;stroke-width:.15;stroke-dasharray:.6 .6}.cut{fill:none;stroke:#d40000;stroke-width:.25}.c{stroke:#d40000;stroke-width:.15}</style>
+<rect class="ref" x="0" y="0" width="155.1" height="86.4"/>
+<text x="0" y="-2.5">LIT PICTURE AREA 155.1 × 86.4  (grey dashed, reference only)</text>
+<rect class="img" x="3.64" y="4.32" width="96.94" height="77.76"/>
+<circle class="img" cx="128.44" cy="38.88" r="24.23"/>
+<rect class="cut" x="4.14" y="4.82" width="95.94" height="76.76"/>
+<circle class="cut" cx="128.44" cy="38.88" r="23.73"/>
+<path class="c" d="M125.44 38.88H131.44M128.44 35.88V41.88"/>
+<text x="6.14" y="9.82">BOARD WINDOW (CUT) 95.94 × 76.76</text>
+<text x="6.14" y="13.32">at x 4.14, y 4.82</text>
+<text x="113.44" y="66.61">PORTHOLE (CUT) Ø47.47</text>
+<text x="113.44" y="69.81">centre x 128.44, y 38.88</text>
+<text x="0" y="93.4">Red = cut lines (0.5 mm inside the image). Blue dashed = edge of the image on the glass. Origin: top-left of the lit picture area.</text>
+<g transform="translate(0 96.4)"><rect x="0" y="0" width="50" height="2.5" fill="#000"/><text x="52" y="2.3">← this bar is exactly 50 mm when printed at 100%</text></g>
+</svg>
