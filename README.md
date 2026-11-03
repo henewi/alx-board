@@ -178,12 +178,20 @@ Make it forget **your** Wi-Fi, so she gets the proper first start-up: `sudo nmcl
 
 These 7" screens usually report 1024×600 themselves. If the image is cropped or blurry, add `video=HDMI-A-1:1024x600@60` to the end of `/boot/firmware/cmdline.txt` and reboot.
 
-### Still to do
-
-Making the SD card read-only would make sudden power cuts completely safe. Everything she keeps already lives under `/opt/alx/data`, so that can move to its own writable partition.
-
-Chromium is launched with `--incognito` so aircraft photos are held in memory only. Planespotters' rules don't allow photos to be written to disk.
-
 ## Credits
 
 Map data © OpenStreetMap contributors (and © CARTO if a key is set). The on-screen map credit is hidden because the board is a private display in one home; the credits are kept here. Flight data from adsb.lol and airplanes.live; routes from adsbdb and hexdb.io; airport list from OurAirports (public domain); weather from Open-Meteo; ISS orbit data from CelesTrak (orbit maths by satellite.js, MIT licence). These are free community services, so keep the polling interval sensible.
+
+### Mounting the Unit
+
+A custom mount was designed after 3D scanning the Pi and the screen.
+
+<img width="1150" height="808" alt="{4CFEB168-694B-4A32-A76C-45281FDCC25A}" src="https://github.com/user-attachments/assets/c01639ab-a3b0-4b92-9a1e-86aba4c52713" />
+
+### Outer pieces, body and finishing
+
+I collected some wood from a nearby farm after I saw the listing on FBMP.
+Then, I machined the wood with a router and mounted the 3D printed mount within.
+After this, the final touch was finishing the wood with old engine oil I took from my Impreza! Lol!
+
+The face plate was also routed out of Carbon Fiber sheet. It splits the display in two to make it look like two displays. 
