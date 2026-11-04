@@ -1265,6 +1265,8 @@ function statLines() {
     if (lb.new_types_today && lb.new_types_today.length)
       out.push(`NEW FOR THE LOGBOOK TODAY: ${lb.new_types_today.slice(0, 3).map(t => TYPES[t] || t).join(', ')}`);
   }
+  // No touch screen: the footer is where she finds her phone settings page (style, range, postcode)
+  if (s.settings_url) out.push(`SETTINGS: ${s.settings_url.replace(/^https?:\/\//, '')}`);
   const nextIss = ISS.passes.find(p => p.start > Date.now());
   if (nextIss) {
     const t = new Date(nextIss.start);
