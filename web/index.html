@@ -1601,6 +1601,13 @@ function openStyler() {
 }
 function closeStyler() { $('styler').classList.remove('show'); clearTimeout(stTimer); }
 $('board').addEventListener('click', openStyler);
+// The button on the frame: the Pi turns it into an Enter key (see pi/install.sh, "gpio-key").
+// First press opens the style picker (with the phone QR code); each press after that moves to the next style.
+addEventListener('keydown', e => {
+  if (e.repeat || (e.key !== 'Enter' && e.key !== ' ')) return;
+  e.preventDefault();
+  if ($('styler').classList.contains('show')) cycleTheme(1); else openStyler();
+});
 $('stPrev').addEventListener('click', e => { e.stopPropagation(); cycleTheme(-1); });
 $('stNext').addEventListener('click', e => { e.stopPropagation(); cycleTheme(1); });
 $('stDone').addEventListener('click', e => { e.stopPropagation(); closeStyler(); });

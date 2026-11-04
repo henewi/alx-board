@@ -107,7 +107,8 @@ Add these to the board's address (they work on the live board and on the file):
 
 Alex can change the board style two ways, and the choice is saved on the device:
 
-- **On the board:** tap the board window to open the style picker, then use ‹ › and DONE. It closes by itself after 25 seconds.
+- **The button on the frame:** press once to open the style picker (it shows the phone QR code too), then press again to step through the styles. It closes by itself after 25 seconds, keeping the style it's on. Wiring: a momentary push button between **GPIO17 (pin 11)** and **GND (pin 9)**, no resistor needed; `pi/install.sh` turns it into an Enter key. Any USB keyboard's Enter key does the same, which is handy for testing.
+- **On a touch screen:** tap the board window to open the style picker, then use ‹ › and DONE.
 - **On her phone:** the picker shows a QR code for `http://<board's address>:8080/settings`, a page with a preview card for every style. This works while her phone is on the same Wi-Fi.
 
 Every style uses exactly the same layout, checked pixel by pixel in a browser, so the faceplate always lines up. A style only changes colours and fonts. The screen draws no frame of its own: everything outside the board window and the radar porthole is one flat colour per style, sitting behind the physical faceplate. `theme` in `config.json` is just the starting style until she picks one.
