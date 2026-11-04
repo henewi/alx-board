@@ -89,9 +89,6 @@ CFGTXT="$BOOT/config.txt"; CMD="$BOOT/cmdline.txt"
 grep -q '^disable_splash=1' "$CFGTXT" || echo 'disable_splash=1' >> "$CFGTXT"
 grep -q '^dtparam=watchdog=on' "$CFGTXT" || echo 'dtparam=watchdog=on' >> "$CFGTXT"
 grep -q '^avoid_warnings=1' "$CFGTXT" || echo 'avoid_warnings=1' >> "$CFGTXT"    # no lightning-bolt or temperature icons
-# The style button on the frame: a push button between GPIO17 (pin 11) and GND (pin 9) becomes an Enter key.
-# Harmless if no button is fitted (the pin is held high by the Pi's internal pull-up).
-grep -q 'dtoverlay=gpio-key,gpio=17' "$CFGTXT" || echo 'dtoverlay=gpio-key,gpio=17,active_low=1,gpio_pull=up,keycode=28,label="ALX style button"' >> "$CFGTXT"
 # The bootloader's own diagnostics screen: turn it off so nothing shows before the board
 if command -v rpi-eeprom-config >/dev/null 2>&1; then
   EEPROM_NOW="$(rpi-eeprom-config 2>/dev/null || true)"
