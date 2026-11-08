@@ -182,11 +182,37 @@ These 7" screens usually report 1024×600 themselves. If the image is cropped or
 
 Map data © OpenStreetMap contributors (and © CARTO if a key is set). The on-screen map credit is hidden because the board is a private display in one home; the credits are kept here. Flight data from adsb.lol and airplanes.live; routes from adsbdb and hexdb.io; airport list from OurAirports (public domain); weather from Open-Meteo; ISS orbit data from CelesTrak (orbit maths by satellite.js, MIT licence). These are free community services, so keep the polling interval sensible.
 
+## The build
+
 ### Mounting the Unit
 
 A custom mount was designed after 3D scanning the Pi and the screen.
 
 <img width="1150" height="808" alt="{4CFEB168-694B-4A32-A76C-45281FDCC25A}" src="https://github.com/user-attachments/assets/c01639ab-a3b0-4b92-9a1e-86aba4c52713" />
+
+### 1. The 3D scans inside the wooden body
+
+The Pi and screen, 3D scanned and placed inside the wooden body in CAD. The body is then cut out with a mill, using the printed template.
+
+<img src="docs/build/1-scans-in-the-wooden-body.jpg" width="700" alt="3D scans of the Pi and screen inside the wooden body, in CAD">
+
+### 2. Rear view in CAD, with the carbon plate
+
+<img src="docs/build/2-cad-rear-view-carbon-plate.jpg" width="700" alt="Rear view of the body in CAD with the carbon fibre plate">
+
+### 3. The printed mount for the Pi and screen
+
+> This is the bit I mentioned when we were on the phone and I said "I'll include it in the repo!" This was my view!
+
+<img src="docs/build/3-printed-pi-and-screen-mount.jpg" width="500" alt="The 3D printed mount holding the Raspberry Pi">
+
+### 4. Printing the cutting template for the wood
+
+<img src="docs/build/4-printing-the-wood-template.jpg" width="700" alt="The cutting template for the wood being 3D printed">
+
+### 5. The cutting template and the mount
+
+<img src="docs/build/5-template-and-mount.jpg" width="500" alt="The printed cutting template with the mount inside it">
 
 ### Outer pieces, body and finishing
 
