@@ -52,6 +52,8 @@ DEFAULTS = {
     # Height/width correction for the radar on screens with non-square pixels. Alex's 7" panel:
     # (155.1 mm / 1024 px) / (86.4 mm / 600 px) = 1.0518. If the radar looks squashed, measure it and adjust.
     "pixel_aspect": 1.0518,
+    # Fine-tune the radar to the faceplate porthole: grow its top / bottom by this many mm on the glass
+    "radar_adjust_mm": {"top": 0, "bottom": 0},
     "radius_mi": 10,          # starting range; Alex can change it on the phone page (10, 15 or 25)
     "poll_s": 8,
     "relocate_s": 6 * 3600,
@@ -1065,6 +1067,7 @@ class Handler(SimpleHTTPRequestHandler):
             "location": s["location"],
             "radius_mi": radius(),
             "pixel_aspect": CFG.get("pixel_aspect", 1.0518),
+            "radar_adjust_mm": CFG.get("radar_adjust_mm") or {},
             "theme": current_theme(),
             "place": s["place"],
             "version": VERSION,

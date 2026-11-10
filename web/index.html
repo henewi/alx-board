@@ -236,7 +236,7 @@
     overflow:hidden;box-shadow:0 0 0 2px var(--radar-edge)}
   /* Alex's 7" panel has non-square pixels: 155.1 mm / 1024 px across but 86.4 mm / 600 px down.
      Stretch the radar 5.18% taller on the Pi so it's a true circle on the glass (48.5 mm across both ways). */
-  body.kiosk #radar{transform:scaleY(var(--pixel-aspect, 1.0518));transform-origin:50% 50%}
+  body.kiosk #radar{transform:translateY(var(--radar-shift, 0px)) scaleY(var(--radar-scale, 1.0518));transform-origin:50% 50%}
   #radar > *{position:absolute;inset:0}
   /* Radar face decoration for each style, drawn over the map: --deco (a picture layer) and --tick (rim tick marks) */
   #radar::before,#radar::after{content:'';position:absolute;inset:0;border-radius:50%;pointer-events:none;z-index:3}
@@ -1088,7 +1088,7 @@ function handleState(s) {
   // Style saved on the device (from the phone page or the on-screen picker)
   if (s.theme && !themeLocked && Date.now() - themeHold > 6000 && s.theme !== document.body.dataset.theme) setTheme(s.theme, false);
   if (s.radius_mi) setRange(s.radius_mi);
-  if (s.pixel_aspect) document.body.style.setProperty('--pixel-aspect', s.pixel_aspect);
+  if (s.pixel_aspect) setRadarFit(s.pixel_aspect, s.radar_adjust_mm);
   if (s.location) {
     buildMap(s.location.lat, s.location.lon, (s.map && s.map.provider) || 'osm');
     $('attr').textContent = (s.map && s.map.attribution) || '© OpenStreetMap';
@@ -1475,6 +1475,17 @@ function maybeHideSplash() {
   const wait = Math.max(0, 3500 - (Date.now() - splashStart));
   splashGone = true;
   setTimeout(() => $('splash').classList.add('gone'), wait);
+}
+
+// ===== Radar fit on the real glass =====
+// pixel_aspect makes the radar a true circle on the 7" panel; radar_adjust_mm then grows the top and/or
+// bottom by that many millimetres on the glass (the panel shows 600 px over 86.4 mm: 6.944 px per mm).
+function setRadarFit(aspect, adj) {
+  const PX_PER_MM_Y = 600 / 86.4, a = adj || {}, top = +a.top || 0, bottom = +a.bottom || 0;
+  const scale = (R_PX * 2 * aspect + (top + bottom) * PX_PER_MM_Y) / (R_PX * 2);
+  const shift = (bottom - top) / 2 * PX_PER_MM_Y;
+  document.body.style.setProperty('--radar-scale', scale.toFixed(4));
+  document.body.style.setProperty('--radar-shift', shift.toFixed(2) + 'px');
 }
 
 // ===== Live data from the Pi's service =====
