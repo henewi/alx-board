@@ -19,6 +19,9 @@ UtmpIdentifier=tty1
 UtmpMode=user
 # Wait (up to a minute) for the data service, so the board opens straight onto live data
 ExecStartPre=-/usr/bin/python3 /opt/alx/bin/alxctl wait-server
+# Invisible pointer theme (pi/blank_cursor.py): no pointer on screen even if the screen's USB looks like a mouse
+Environment=XCURSOR_THEME=alx-blank
+Environment=XCURSOR_SIZE=24
 ExecStart=/usr/bin/cage -s -- @CHROMIUM@ --kiosk --incognito --ozone-platform=wayland \
   --noerrdialogs --disable-infobars --no-first-run --disable-session-crashed-bubble \
   --disable-features=Translate,TranslateUI,MediaRouter --disable-pinch --overscroll-history-navigation=0 \

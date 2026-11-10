@@ -56,6 +56,10 @@ json.dump(cfg, open(p, "w"), indent=2)
 PY
 chmod 600 "$ROOT/data/config.json"     # may hold the update token
 
+step "Invisible mouse pointer (so no pointer ever shows on the screen)"
+python3 "$SRC/pi/blank_cursor.py" /usr/share/icons/alx-blank /home/alx/.icons/default
+chown -R alx:alx /home/alx/.icons
+
 step "Installing services"
 for f in "$SRC"/pi/systemd/*; do
   sed "s#@CHROMIUM@#$CHROMIUM#g" "$f" > "/etc/systemd/system/$(basename "$f")"
