@@ -222,6 +222,3 @@ The Pi and screen, 3D scanned and placed inside the wooden body in CAD. The body
 
 I collected some wood from a nearby farm after I saw the listing on FBMP.
 Then, I machined the wood with a router and mounted the 3D printed mount within.
-After this, the final touch was finishing the wood with old engine oil I took from my Impreza! Lol!
-
-The face plate was also routed out of Carbon Fiber sheet. It splits the display in two to make it look like two displays. 
