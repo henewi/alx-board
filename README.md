@@ -218,6 +218,9 @@ The Pi and screen, 3D scanned and placed inside the wooden body in CAD. The body
 
 <img width="1920" height="1080" alt="{BF3C49DF-6404-49BC-BA1B-FCB3F411231A}" src="https://github.com/user-attachments/assets/98aed5e2-f491-4f03-9c6e-a81e46241af1" />
 
+<img width="1920" height="1080" alt="{173E54D9-A880-4AE3-A92A-569D5BF94B29}" src="https://github.com/user-attachments/assets/cc6dce34-bcaf-4a2f-9460-12baa2dd00dd" />
+
+
 ### Outer pieces, body and finishing
 
 I collected some wood from a nearby farm after I saw the listing on FBMP.
