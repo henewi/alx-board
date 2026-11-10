@@ -110,7 +110,7 @@ h3{{font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:#9a9a9a;ma
   font:600 22px system-ui;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer}}
 .rg small{{font:500 11px system-ui;color:#8f8f8f;letter-spacing:.1em;text-transform:uppercase}}.rg.on{{border-color:#ffc53d;color:#ffc53d}}
 </style></head><body>
-<h1>ALEX INTERNATIONAL · ALX</h1>
+<h1>HOWE INTERNATIONAL · ALX</h1>
 <h2>Your board</h2>
 {place_card(place)}
 {range_card(radius)}

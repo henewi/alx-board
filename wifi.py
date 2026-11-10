@@ -329,7 +329,7 @@ small{color:#8f8f8f}.why{margin:-6px 0 16px}</style>"""
             f'{html.escape(n["ssid"])}<span class="sig">{"🔒 " if n["secure"] else ""}{n["signal"]}%</span></label>'
             for i, n in enumerate(nets[:15]))
         return f"""<!doctype html><html><head><meta charset="utf-8"><title>ALX Wi-Fi setup</title>{self.STYLE}</head><body>
-<h1>ALEX INTERNATIONAL</h1><h2>Connect to Wi-Fi</h2>
+<h1>HOWE INTERNATIONAL</h1><h2>Connect to Wi-Fi</h2>
 {f'<div class="err">{html.escape(error.capitalize() if error.isupper() else error)}</div>' if error else ''}
 <form method="post" action="/connect">
 {rows or '<p><small>No networks found. Type the name below.</small></p>'}
@@ -345,7 +345,7 @@ small{color:#8f8f8f}.why{margin:-6px 0 16px}</style>"""
 
     def done_html(self, ssid):
         return f"""<!doctype html><html><head><meta charset="utf-8"><title>Connecting…</title>{self.STYLE}</head><body>
-<h1>ALEX INTERNATIONAL</h1><h2>Connecting to {html.escape(ssid)}…</h2>
+<h1>HOWE INTERNATIONAL</h1><h2>Connecting to {html.escape(ssid)}…</h2>
 <p>Your phone will now disconnect from ALX-Setup. That's expected.</p>
 <p>Watch the board: within a minute it will switch to live flights. If the password was wrong,
 the setup screen comes back and you can try again.</p></body></html>"""
