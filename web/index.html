@@ -1088,6 +1088,7 @@ function handleState(s) {
   // Style saved on the device (from the phone page or the on-screen picker)
   if (s.theme && !themeLocked && Date.now() - themeHold > 6000 && s.theme !== document.body.dataset.theme) setTheme(s.theme, false);
   if (s.radius_mi) setRange(s.radius_mi);
+  if (s.pixel_aspect) document.body.style.setProperty('--pixel-aspect', s.pixel_aspect);
   if (s.location) {
     buildMap(s.location.lat, s.location.lon, (s.map && s.map.provider) || 'osm');
     $('attr').textContent = (s.map && s.map.attribution) || '© OpenStreetMap';

@@ -49,6 +49,9 @@ DEFAULTS = {
     # 0.0.0.0 so Alex's phone can reach the style page on the home Wi-Fi
     "host": "0.0.0.0",
     "port": 8080,
+    # Height/width correction for the radar on screens with non-square pixels. Alex's 7" panel:
+    # (155.1 mm / 1024 px) / (86.4 mm / 600 px) = 1.0518. If the radar looks squashed, measure it and adjust.
+    "pixel_aspect": 1.0518,
     "radius_mi": 10,          # starting range; Alex can change it on the phone page (10, 15 or 25)
     "poll_s": 8,
     "relocate_s": 6 * 3600,
@@ -1061,6 +1064,7 @@ class Handler(SimpleHTTPRequestHandler):
             "stale_s": round(time.time() - s["last_ok"]) if s["last_ok"] else None,
             "location": s["location"],
             "radius_mi": radius(),
+            "pixel_aspect": CFG.get("pixel_aspect", 1.0518),
             "theme": current_theme(),
             "place": s["place"],
             "version": VERSION,
