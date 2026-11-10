@@ -214,6 +214,10 @@ The Pi and screen, 3D scanned and placed inside the wooden body in CAD. The body
 
 <img src="docs/build/5-template-and-mount.jpg" width="500" alt="The printed cutting template with the mount inside it">
 
+### 6. Designing the faceplate to make it look like seperate screens
+
+<img width="1920" height="1080" alt="{BF3C49DF-6404-49BC-BA1B-FCB3F411231A}" src="https://github.com/user-attachments/assets/98aed5e2-f491-4f03-9c6e-a81e46241af1" />
+
 ### Outer pieces, body and finishing
 
 I collected some wood from a nearby farm after I saw the listing on FBMP.
