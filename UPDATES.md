@@ -16,6 +16,8 @@ Once the board is at Alex's, you can still fix things or add features. You publi
 2. On GitHub: **Releases → Draft a new release → Choose a tag**. Type a new tag, e.g. `v1.1`, then **Publish release**. Only published releases are installed, not every push.
 3. That night at 03:30 the board installs it. To install straight away when you have SSH access to the Pi: `sudo alxctl update`.
 
+**Bump `VERSION` to the same number before you publish** (Claude does this when it pushes changes). The board compares version numbers, so code installed straight from GitHub carries the number in `VERSION`. If that number is lower than the newest published release, the board will "update" to that release at 03:30, even if the release is older code.
+
 Tags must be new each time. A tag that failed once is never retried, so fix the problem and publish `v1.2`.
 
 ## What the board does with a new release
