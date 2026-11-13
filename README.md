@@ -1,6 +1,184 @@
 # ALX Departures
 
-A desk flight board for Alex: a Solari-style departure board of the aircraft overhead, plus a radar map of everything nearby (10, 15 or 25 miles, chosen on her phone).
+A desk flight board for Alex: a Solari-style departure board of the aircraft flying overhead, plus a radar map of everything nearby, in a hand-made wooden case.
+
+<img src="docs/build/24-finished-on-the-desk.jpg" width="800" alt="The finished board on a desk, showing live flights and the radar">
+
+Happy birthday Al!
+
+---
+
+## The build
+
+### Design
+
+The Pi and the screen were 3D scanned first, so everything could be designed around the real parts.
+
+#### Mounting the unit
+
+A custom mount was designed after 3D scanning the Pi and the screen.
+
+<img width="1150" height="808" alt="{4CFEB168-694B-4A32-A76C-45281FDCC25A}" src="https://github.com/user-attachments/assets/c01639ab-a3b0-4b92-9a1e-86aba4c52713" />
+
+#### The 3D scans inside the wooden body
+
+The Pi and screen, 3D scanned and placed inside the wooden body in CAD. The body is then cut out with a mill, using the printed template.
+
+<img src="docs/build/1-scans-in-the-wooden-body.jpg" width="700" alt="3D scans of the Pi and screen inside the wooden body, in CAD">
+
+#### Rear view in CAD, with the carbon plate
+
+<img src="docs/build/2-cad-rear-view-carbon-plate.jpg" width="700" alt="Rear view of the body in CAD with the carbon fibre plate">
+
+#### The printed mount for the Pi and screen
+
+> This is the bit I mentioned when we were on the phone and I said "I'll include it in the repo!" This was my view!
+
+<img src="docs/build/3-printed-pi-and-screen-mount.jpg" width="500" alt="The 3D printed mount holding the Raspberry Pi">
+
+#### Printing the cutting template for the wood
+
+<img src="docs/build/4-printing-the-wood-template.jpg" width="700" alt="The cutting template for the wood being 3D printed">
+
+#### The cutting template and the mount
+
+<img src="docs/build/5-template-and-mount.jpg" width="500" alt="The printed cutting template with the mount inside it">
+
+#### Designing the faceplate to look like separate screens
+
+<img width="1920" height="1080" alt="{BF3C49DF-6404-49BC-BA1B-FCB3F411231A}" src="https://github.com/user-attachments/assets/98aed5e2-f491-4f03-9c6e-a81e46241af1" />
+
+<img width="1920" height="1080" alt="{173E54D9-A880-4AE3-A92A-569D5BF94B29}" src="https://github.com/user-attachments/assets/cc6dce34-bcaf-4a2f-9460-12baa2dd00dd" />
+
+### The wooden body
+
+I collected the wood from a nearby farm after seeing the listing on Facebook Marketplace, then machined the body out of a single block.
+
+#### Milling the pocket
+
+<img src="docs/build/07-milling-the-body.jpg" width="700" alt="Milling the pocket into the wooden block on a manual mill">
+
+#### Cut through, still clamped to the mill
+
+<img src="docs/build/08-pocket-cut-through.jpg" width="700" alt="The pocket cut right through the block, still clamped to the mill bed">
+
+#### The frame freed from the block
+
+<img src="docs/build/09-frame-freed-from-the-block.jpg" width="700" alt="The wooden frame lifted out of the block it was cut from">
+
+#### Sanding the corners on the disc sander
+
+<img src="docs/build/10-sanding-the-corners.jpg" width="700" alt="Sanding the outside corners of the frame on a disc sander">
+
+#### Sanded, with the mounting holes drilled
+
+<img src="docs/build/11-holes-drilled.jpg" width="700" alt="The sanded frame with mounting holes drilled in the top face">
+
+#### Lacquering in the spray booth
+
+<img src="docs/build/12-lacquering-the-frame.jpg" width="700" alt="The frame hanging in a spray booth being lacquered">
+
+### The mount and electronics
+
+#### The Pi on the printed mount
+
+<img src="docs/build/13-pi-on-the-mount.jpg" width="500" alt="The Raspberry Pi fitted to the black 3D printed mount">
+
+#### The mount on the back of the screen
+
+<img src="docs/build/14-mount-on-the-screen-side.jpg" width="500" alt="Side view of the mount fitted to the back of the screen">
+
+<img src="docs/build/15-mount-on-the-screen-top.jpg" width="700" alt="Top view of the mount and Pi on the back of the screen">
+
+#### Test fit in the frame
+
+Heat-set inserts in the wood take the screws.
+
+<img src="docs/build/16-mount-in-the-frame.jpg" width="700" alt="The mount and Pi test-fitted inside the wooden frame, with brass inserts in the wood">
+
+### Assembly
+
+#### Printing the back plate
+
+<img src="docs/build/17-printing-the-back-plate.jpg" width="700" alt="The textured black back plate being 3D printed">
+
+#### The back plate fitted
+
+The back carries a message for Alex, plus the address of this repo and of the settings page.
+
+<img src="docs/build/18-back-plate-fitted.jpg" width="700" alt="The back plate screwed on, with a window showing the Pi and an embossed birthday message">
+
+#### First boot, with a prototype faceplate
+
+<img src="docs/build/19-first-boot-green-faceplate.jpg" width="700" alt="The board running for the first time behind a green prototype faceplate">
+
+#### Test fit in the frame
+
+<img src="docs/build/20-test-fit-in-the-frame.jpg" width="500" alt="The board running inside the wooden frame with the black faceplate">
+
+#### Painting the faceplate
+
+<img src="docs/build/21-painting-the-faceplate.jpg" width="700" alt="The printed faceplate hanging in a spray booth after painting">
+
+#### The layers
+
+Faceplate, screen, the Pi and its cables, then the back plate, all held on printed standoffs.
+
+<img src="docs/build/22-the-layers-side-view.jpg" width="700" alt="Side view of the assembled stack showing the faceplate, screen, Pi, cables and back plate">
+
+#### Ready to go in
+
+<img src="docs/build/23-ready-to-go-in.jpg" width="700" alt="The assembled unit next to the empty wooden frame">
+
+### Finished
+
+<img src="docs/build/24-finished-on-the-desk.jpg" width="700" alt="The finished board on a desk in the navy and amber style">
+
+<img src="docs/build/25-finished-at-night.jpg" width="700" alt="The finished board at night in the pink and cyan style">
+
+---
+
+## Features
+
+### The departure board
+
+- **Overhead Now:** the nearest aircraft, with its photo, route, flight number, airline, aircraft type and registration, altitude (and whether it's climbing or descending), distance, speed, and which way to look to see it.
+- **Board rows:** every flight in range, then the ones that have just left, dimmed under "EARLIER TODAY" with the time they passed.
+- **Greeting:** good morning, afternoon or evening, with the name of the place.
+- **Boarding-pass splash** while it starts up.
+
+### The radar
+
+- Every aircraft within 10, 15 or 25 miles, chosen on her phone, on a map of the area.
+- Fading trails behind each plane, and labels that move out of each other's way.
+- Different silhouettes for airliners, wide-bodies, light aircraft and helicopters.
+
+### For a plane spotter
+
+- **Alerts for rare aircraft:** A380s, 747s, the Beluga, An-124s, C-17s, A400Ms, vintage warbirds and more, plus military aircraft and emergency squawks. They pulse on the radar and are starred on the board.
+- **Spotter's logbook:** every aircraft and every type is remembered with the day it was first seen. A new one gets "FIRST SIGHTING" or "★ NEW TYPE FOR THE LOGBOOK".
+- **Footer stats:** today's count, busiest hour, highest, fastest, furthest origin, types seen and the latest rare sighting, rotating every few seconds.
+- **Spotting conditions:** visibility, cloud and rain rated EXCELLENT to POOR, with sunrise, sunset and golden hour.
+- **ISS passes:** the next visible pass, a countdown, and which way to look while it's overhead.
+
+### Make it yours
+
+- **Twenty board styles,** picked by tapping the screen or from her phone: from the classic Solari split flaps and an Airbus cockpit to Sunflower (her favourite colour), Blueprint, Renaissance, Cosmos, Grand Prix and a bowl of pho. The layout is identical in every style, so the faceplate always lines up. See `STYLES.md` for all of them.
+- **Phone settings page:** board location and style, reached by scanning a QR code.
+- **Birthday surprise:** on the day, the greeting changes and the board flips to a birthday message every 15 minutes.
+
+### Looks after itself
+
+- **Easy Wi-Fi setup:** on first start-up, scan the QR code, pick the network on your phone, type the password and postcode, and you're done. Whenever it's offline, the board says what it's trying rather than going blank.
+- **Moves house with you:** each Wi-Fi network remembers its own postcode, so the radar follows the board between homes.
+- **Recovers by itself** from crashes, frozen screens and dropped Wi-Fi, and installs updates quietly overnight.
+- **Never loses her logbook:** everything is saved every 2 minutes and survives restarts and power cuts.
+
+---
+
+## Technical
+
+### Files
 
 ```
 alx/
@@ -19,7 +197,7 @@ alx/
   pi/systemd/          the services and timers install.sh sets up
 ```
 
-## Check the free services first
+### Check the free services first
 
 ```
 python3 selftest.py SG5 1AA
@@ -29,7 +207,7 @@ This tries every service the board uses, through the board's own code: location,
 
 **Windows: "certificate has expired" errors?** Windows' copy of Python often has an out-of-date list of trusted certificates, so sites using Let's Encrypt fail. Fix it once with `py -m pip install truststore certifi`. The board uses them automatically if they're there. The Pi doesn't need this.
 
-## Try it on your laptop now
+### Try it on your laptop
 
 You need Python 3.8 or newer. Nothing else to install.
 
@@ -44,7 +222,7 @@ The terminal prints a line whenever something fails, such as a flight source bei
 
 To preview the design without the server, open `web/index.html` directly. It runs on demo data over Hitchin.
 
-## Settings (optional)
+### Settings (optional)
 
 Copy `config.example.json` to `config.json` and edit:
 
@@ -56,7 +234,7 @@ Copy `config.example.json` to `config.json` and edit:
 - **`contact`:** a website or email sent with requests so the free services know who's asking. Planespotters requires it.
 - **`cache_dir`:** where it saves location, routes and map tiles.
 
-## How it works
+### How it works
 
 1. **Location:** the postcode saved for the Wi-Fi network it's on (looked up once on postcodes.io, or OpenStreetMap Nominatim outside the UK, and remembered). If there's no postcode yet, it uses free IP geolocation (ipwho.is, then ipapi.co, then ip-api.com), which can be 20–40 miles out, then the last saved location. A `lat`/`lon` in `config.json` overrides everything.
 2. **Aircraft:** every 8 seconds from adsb.fi, falling back to adsb.lol, then airplanes.live. A feed that refuses or says "slow down" is left alone for a while. Planes on the ground or outside the radar range are dropped.
@@ -67,7 +245,7 @@ Copy `config.example.json` to `config.json` and edit:
 
 If the data stops arriving, the board shows DELAYED, and planes are cleared after 5 minutes.
 
-## What's on the board
+### Feature details
 
 - **Boarding-pass splash** while it starts up, with a time-of-day greeting.
 - **Header greeting:** good morning (05:00–11:59), afternoon (12:00–16:59) or evening, plus the place.
@@ -82,7 +260,7 @@ If the data stops arriving, the board shows DELAYED, and planes are cleared afte
 - **ISS passes:** CelesTrak orbit data is downloaded twice a day, and the board works out visible passes itself (at least 10° up, sunlit, while it's dark where Alex is). The footer shows the next pass, a countdown when one is within 20 minutes, and "ISS OVERHEAD NOW · LOOK SE · 47° UP" during the pass, with a marker on the radar edge. Preview with `?iss`.
 - **Birthday:** set `"birthday": "MM-DD"` in `config.json`. On the day the greeting changes, and every 15 minutes the board flips to a birthday message for 20 seconds. Preview it with `?birthday` on the address.
 
-## The postcode
+### The postcode
 
 IP location can be miles out, so every Wi-Fi network the board uses gets a postcode:
 
@@ -93,7 +271,7 @@ IP location can be miles out, so every Wi-Fi network the board uses gets a postc
 
 Preview the board prompt with `?place` or `?place=error`.
 
-## Previewing the special screens
+### Previewing the special screens
 
 Add these to the board's address (they work on the live board and on the file):
 
@@ -104,7 +282,7 @@ Add these to the board's address (they work on the live board and on the file):
 - `?birthday`: the birthday surprise (flips in after about 8 seconds)
 - `?theme=sunflower`: force a style, for testing only
 
-## Changing the style
+### Changing the style
 
 Alex can change the board style two ways, and the choice is saved on the device:
 
@@ -113,7 +291,7 @@ Alex can change the board style two ways, and the choice is saved on the device:
 
 Every style uses exactly the same layout, checked pixel by pixel in a browser, so the faceplate always lines up. A style only changes colours and fonts. The screen draws no frame of its own: everything outside the board window and the radar porthole is one flat colour per style, sitting behind the physical faceplate. `theme` in `config.json` is just the starting style until she picks one.
 
-## Wi-Fi setup (on the Pi)
+### Wi-Fi setup (on the Pi)
 
 `wifi.py` handles getting online, using Raspberry Pi OS's built-in NetworkManager:
 
@@ -127,9 +305,9 @@ Every style uses exactly the same layout, checked pixel by pixel in a browser, s
 
 It only runs on a Raspberry Pi running as root (`"wifi_manage": "auto"`), so it does nothing on your laptop. Preview the screens with `?wifi`, `?wifi=connecting`, `?wifi=error`, `?wifi=looking`, `?wifi=new` or `?wifi=signin` on the address.
 
-## On the Pi
+### On the Pi
 
-### Install (once)
+#### Install (once)
 
 1. Flash **Raspberry Pi OS Lite (64-bit)** with Raspberry Pi Imager. In its settings, turn on SSH, set a username and password, and add **your** Wi-Fi so you can reach it.
 2. Copy the `alx` folder to the Pi (`scp -r alx pi@<address>:`), or unzip `alx-departures.zip` there.
@@ -146,7 +324,7 @@ The install script:
 
 It's safe to run again: it never touches `/opt/alx/data`.
 
-### Where things live
+#### Where things live
 
 | | |
 |---|---|
@@ -154,18 +332,18 @@ It's safe to run again: it never touches `/opt/alx/data`.
 | `/opt/alx/data/config.json` | settings. Updates never overwrite it |
 | `/opt/alx/data/cache/` | Alex's logbook, today's stats, recent flights, style, postcodes and map tiles |
 
-### Staying up by itself
+#### Staying up by itself
 
 - **Data service hangs or crashes:** it checks in with the system every 15 seconds, but only while it's actually working. If it misses 90 seconds, it's restarted.
 - **Screen freezes:** the page checks in every 5 seconds with a count of updates it has drawn. If that stops for 3 minutes, the screen is restarted. If that happens 3 times in an hour, the Pi reboots (at most once every 6 hours).
 - **Whole Pi locks up:** the Pi's hardware watchdog reboots it.
 - **Nightly at 03:30:** it installs any update, then quietly restarts the service and the screen. The screen goes blank for a few seconds, with no text and no boarding pass. This clears any slow memory build-up.
 
-### Restarts never lose her data
+#### Restarts never lose her data
 
 The logbook, stats, recent flights, style and postcodes are saved to `/opt/alx/data` every 2 minutes and on every clean stop: nightly restart, update, `sudo reboot`. Each save goes to a new file first, then swaps in, keeping the previous copy as a `.bak`. If the power is pulled mid-save, the next start uses the backup. A sudden power cut can lose at most the last 2 minutes. The only thing that resets is "today's" count, which is meant to start fresh at midnight.
 
-### Handy commands (over SSH)
+#### Handy commands (over SSH)
 
 ```
 alxctl status                 version, health, last update
@@ -175,58 +353,14 @@ journalctl -u alx -f          live log of the data service
 journalctl -u alx-nightly     what the last nightly run did
 ```
 
-### Before wrapping it
+#### Before wrapping it
 
 Make it forget **your** Wi-Fi, so she gets the proper first start-up: `sudo nmcli connection delete preconfigured` (`nmcli connection show` lists the names). Then switch it off at the wall.
 
-### If the picture is wrong
+#### If the picture is wrong
 
 These 7" screens usually report 1024×600 themselves. If the image is cropped or blurry, add `video=HDMI-A-1:1024x600@60` to the end of `/boot/firmware/cmdline.txt` and reboot.
 
-## Credits
+### Credits
 
-Map data © OpenStreetMap contributors (and © CARTO if a key is set). The on-screen map credit is hidden because the board is a private display in one home; the credits are kept here. Flight data from adsb.lol and airplanes.live; routes from adsbdb and hexdb.io; airport list from OurAirports (public domain); weather from Open-Meteo; ISS orbit data from CelesTrak (orbit maths by satellite.js, MIT licence). These are free community services, so keep the polling interval sensible.
-
-## The build
-
-### Mounting the Unit
-
-A custom mount was designed after 3D scanning the Pi and the screen.
-
-<img width="1150" height="808" alt="{4CFEB168-694B-4A32-A76C-45281FDCC25A}" src="https://github.com/user-attachments/assets/c01639ab-a3b0-4b92-9a1e-86aba4c52713" />
-
-### 1. The 3D scans inside the wooden body
-
-The Pi and screen, 3D scanned and placed inside the wooden body in CAD. The body is then cut out with a mill, using the printed template.
-
-<img src="docs/build/1-scans-in-the-wooden-body.jpg" width="700" alt="3D scans of the Pi and screen inside the wooden body, in CAD">
-
-### 2. Rear view in CAD, with the carbon plate
-
-<img src="docs/build/2-cad-rear-view-carbon-plate.jpg" width="700" alt="Rear view of the body in CAD with the carbon fibre plate">
-
-### 3. The printed mount for the Pi and screen
-
-> This is the bit I mentioned when we were on the phone and I said "I'll include it in the repo!" This was my view!
-
-<img src="docs/build/3-printed-pi-and-screen-mount.jpg" width="500" alt="The 3D printed mount holding the Raspberry Pi">
-
-### 4. Printing the cutting template for the wood
-
-<img src="docs/build/4-printing-the-wood-template.jpg" width="700" alt="The cutting template for the wood being 3D printed">
-
-### 5. The cutting template and the mount
-
-<img src="docs/build/5-template-and-mount.jpg" width="500" alt="The printed cutting template with the mount inside it">
-
-### 6. Designing the faceplate to make it look like seperate screens
-
-<img width="1920" height="1080" alt="{BF3C49DF-6404-49BC-BA1B-FCB3F411231A}" src="https://github.com/user-attachments/assets/98aed5e2-f491-4f03-9c6e-a81e46241af1" />
-
-<img width="1920" height="1080" alt="{173E54D9-A880-4AE3-A92A-569D5BF94B29}" src="https://github.com/user-attachments/assets/cc6dce34-bcaf-4a2f-9460-12baa2dd00dd" />
-
-
-### Outer pieces, body and finishing
-
-I collected some wood from a nearby farm after I saw the listing on FBMP.
-Then, I machined the wood with a router and mounted the 3D printed mount within.
+Map data © OpenStreetMap contributors (and © CARTO if a key is set). The on-screen map credit is hidden because the board is a private display in one home; the credits are kept here. Flight data from adsb.fi, adsb.lol and airplanes.live; routes from adsbdb and hexdb.io; aircraft photos from Planespotters.net; airport list from OurAirports (public domain); weather from Open-Meteo; ISS orbit data from CelesTrak (orbit maths by satellite.js, MIT licence). These are free community services, so keep the polling interval sensible.
