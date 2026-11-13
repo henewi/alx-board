@@ -50,7 +50,7 @@ Copy `config.example.json` to `config.json` and edit:
 
 - **`lat` / `lon` / `place`:** pin the location for good, overriding the postcode. Normally leave these out and use the postcode.
 - **`carto_key`:** a free key from https://carto.com/basemaps/apikey/ switches the map to CARTO's darker style. Without one it uses OpenStreetMap tiles, tinted green.
-- **`theme`:** board style: `solari`, `terminal`, `ivory`, `cockpit`, `crt`, `sage`, `dusk`, `sandstone`, `paper`, `renaissance`, `wavepunk`, `blueprint`, `bosnia` or `sunflower`. See `STYLES.md`.
+- **`theme`:** board style: `solari`, `terminal`, `ivory`, `cockpit`, `crt`, `sage`, `dusk`, `sandstone`, `paper`, `renaissance`, `wavepunk`, `blueprint`, `bosnia`, `sunflower`, `disco`, `popart`, `groovy` or `candy`. See `STYLES.md`.
 - **`radius_mi`, `poll_s`, `port`:** starting radar range in miles (default 10; she can switch between 10, 15 and 25 on the phone page), update interval, web port.
 - **`birthday`** (`"MM-DD"`) and **`name`:** for the greeting and the birthday surprise.
 - **`contact`:** a website or email sent with requests so the free services know who's asking. Planespotters requires it.

@@ -18,6 +18,10 @@ Saved styles for the board and radar. Tap the board to open the style picker, or
 | **Blueprint** | An engineering drawing: white line-work on blue with a drawing grid, outlined character boxes in B612 Mono, a dashed card, centre-lines and a protractor scale on the radar, and a dimension line across the top giving the board window's real width: 95.94 mm | |
 | **Bosnia** | The flag: royal blue, white letters, yellow tags and rules, the flag's triangle and line of stars faintly behind the board, and nine white stars round a yellow-ringed radar | |
 | **Sunflower** | Her favourite colour: marigold, sunburst rays, and the radar is a sunflower (seed-head face, petal rim) | Bold, like airport signs. |
+| **Disco** | Glitter-gold flaps on faceted tiles, a Monoton title in a gold-to-pink gradient, a lit dance floor fading up the board, spotlight beams, and the radar is a mirrorball with sparkles | Funky. |
+| **Pop Art** | A comic strip: Bangers lettering, Ben-Day halftone dots, white boxes with black ink outlines, a speech-bubble card with a tail, a yellow halftone radar inside a red POW burst | Funky. |
+| **Groovy** | The 1970s: a fat italic Shrikhand title with a stacked shadow, every column its own colour (red, orange, mustard, brown, avocado), rainbow stripe rules, rainbow arcs, a 70s-ringed radar | Funky. |
+| **Candy** | A sweet shop: pink with sprinkles, rounded Fredoka letters on white tiles, icing drips under the header, a dashed card, and the radar is a sprinkled pink doughnut | Funky. |
 
 Retired in v1.5: Racing Green, Jet Age and Graphite. A board that had one saved moves to Sage, Dusk or Solari.
 
@@ -54,7 +58,7 @@ The variables that matter most:
 - **Flaps:** `--flap-ink` (letters), `--flap-top`, `--flap-bot` (tile halves), `--flap-line` (the split; `transparent` for flat cells), `--flap-radius`
 - **Radar:** `--radar-in`, `--radar-out` (background), `--radar-line` (rings), `--radar-ink` (planes), `--radar-near` (nearest plane)
 - **Map tint:** `--map-hue` (colour shift), `--map-invert` (1 for a dark map, 0 for a light map), `--map-opacity`
-- **Font:** `--font`. Oswald, Barlow Condensed and VT323 are built in.
+- **Font:** `--font`. Built in: Oswald, Barlow Condensed, VT323, Orbitron, B612, B612 Mono, Jost, Courier Prime, Playfair Display, Cinzel, Titillium Web, Monoton, Bangers, Shrikhand and Fredoka (all SIL Open Font License).
 
 ## Ideas to try next
 

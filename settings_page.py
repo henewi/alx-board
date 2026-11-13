@@ -24,6 +24,10 @@ THEMES = [
     ("blueprint", "Blueprint", "An engineering drawing: white line-work on blue", ("#0f4277", "#0f4277", "#ffffff", "#bfe6ff", "#104680", "#ffffff")),
     ("bosnia", "Bosnia", "The flag: royal blue, yellow and a ring of white stars", ("#00268f", "#0b2d93", "#ffffff", "#fecb00", "#0b2f9c", "#fecb00")),
     ("sunflower", "Sunflower", "Her favourite: yellow, with a sunflower radar", ("#f3bd12", "#221d14", "#ffd23f", "#f3bd12", "#2b2412", "#ffd23f")),
+    ("disco", "Disco", "A mirrorball radar, a lit dance floor and glitter gold", ("#1a0a2c", "#3a2a58", "#ffe7a1", "#ff4fd8", "#8d86a8", "#ffcf4a")),
+    ("popart", "Pop Art", "A comic strip: halftone dots, black outlines and a POW radar", ("#33c3f0", "#ffffff", "#111111", "#e8132b", "#ffe14a", "#e8132b")),
+    ("groovy", "Groovy", "The 1970s: orange, mustard and brown, rainbow stripes", ("#f6e7c6", "#f08a24", "#fff4dc", "#d1452e", "#fbecd0", "#d1452e")),
+    ("candy", "Candy", "A sweet shop: pink, sprinkles and a doughnut radar", ("#ffd3e6", "#ffffff", "#ff4f9a", "#ff4f9a", "#ff9cc8", "#e9b277")),
 ]
 THEME_IDS = [t[0] for t in THEMES]
 
