@@ -183,7 +183,7 @@ The cabling was a nightmare. The screen's power and the Pi's micro-HDMI both had
 
 ### Make it yours
 
-- **Twenty board styles,** picked by tapping the screen or from her phone: from the classic Solari split flaps and an Airbus cockpit to Sunflower (her favourite colour), Blueprint, Renaissance, Cosmos, Grand Prix and a bowl of pho. The layout is identical in every style, so the faceplate always lines up. See `STYLES.md` for all of them.
+- **Twenty board styles,** picked by tapping the screen or from her phone: from the classic Solari split flaps and an Airbus cockpit to Sunflower, Blueprint, Renaissance, Cosmos, Grand Prix and a bowl of pho. The layout is identical in every style, so the faceplate always lines up. See `STYLES.md` for all of them.
 - **Phone settings page:** board location and style, reached by scanning a QR code.
 - **Birthday surprise:** on the day, the greeting changes and the board flips to a birthday message every 15 minutes.
 
