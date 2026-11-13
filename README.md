@@ -94,11 +94,11 @@ I collected the wood from a nearby farm after seeing the listing on Facebook Mar
 
 ### Putting it together
 
-#### Test fit in the frame
+#### Heat-set inserts in the wood
 
-Heat-set inserts in the wood take the screws.
+Brass heat-set inserts in the frame take the screws for the faceplate and back plate. Shown with the mount test-fitted inside.
 
-<img src="docs/build/16-mount-in-the-frame.jpg" width="700" alt="The mount and Pi test-fitted inside the wooden frame, with brass inserts in the wood">
+<img src="docs/build/16-heat-set-inserts-in-the-frame.jpg" width="700" alt="Brass heat-set inserts in the wooden frame, with the mount and Pi test-fitted inside">
 
 #### Printing the back plate
 
