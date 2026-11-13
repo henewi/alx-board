@@ -2,7 +2,7 @@
 
 A desk flight board for Alex: a Solari-style departure board of the aircraft flying overhead, plus a radar map of everything nearby, in a hand-made wooden case.
 
-<img src="docs/build/24-finished-on-the-desk.jpg" width="800" alt="The finished board on a desk, showing live flights and the radar">
+<img src="docs/build/25-finished-at-night.jpg" width="800" alt="The finished board at night, showing live flights and the radar">
 
 Happy birthday Al!
 
@@ -66,37 +66,39 @@ I collected the wood from a nearby farm after seeing the listing on Facebook Mar
 
 <img src="docs/build/09-frame-freed-from-the-block.jpg" width="700" alt="The wooden frame lifted out of the block it was cut from">
 
-#### Sanding the corners on the disc sander
-
-<img src="docs/build/10-sanding-the-corners.jpg" width="700" alt="Sanding the outside corners of the frame on a disc sander">
-
-#### Sanded, with the mounting holes drilled
-
-<img src="docs/build/11-holes-drilled.jpg" width="700" alt="The sanded frame with mounting holes drilled in the top face">
-
-#### Lacquering in the spray booth
-
-<img src="docs/build/12-lacquering-the-frame.jpg" width="700" alt="The frame hanging in a spray booth being lacquered">
-
-### The mount and electronics
+### The mount
 
 #### The Pi on the printed mount
 
-<img src="docs/build/13-pi-on-the-mount.jpg" width="500" alt="The Raspberry Pi fitted to the black 3D printed mount">
+<img src="docs/build/10-pi-on-the-mount.jpg" width="500" alt="The Raspberry Pi fitted to the black 3D printed mount">
 
 #### The mount on the back of the screen
 
-<img src="docs/build/14-mount-on-the-screen-side.jpg" width="500" alt="Side view of the mount fitted to the back of the screen">
+<img src="docs/build/11-mount-on-the-screen-side.jpg" width="500" alt="Side view of the mount and Pi fitted to the back of the screen">
 
-<img src="docs/build/15-mount-on-the-screen-top.jpg" width="700" alt="Top view of the mount and Pi on the back of the screen">
+<img src="docs/build/12-mount-on-the-screen-top.jpg" width="700" alt="Top view of the mount and Pi on the back of the screen">
+
+### Finishing the body
+
+#### Sanding the corners on the disc sander
+
+<img src="docs/build/13-sanding-the-corners.jpg" width="700" alt="Sanding an outside corner of the frame on a disc sander">
+
+#### Sanded, with the mounting holes drilled
+
+<img src="docs/build/14-holes-drilled.jpg" width="700" alt="The sanded frame with mounting holes drilled in the top face">
+
+#### Lacquering in the spray booth
+
+<img src="docs/build/15-lacquering-the-frame.jpg" width="700" alt="The frame hanging in a spray booth being lacquered">
+
+### Putting it together
 
 #### Test fit in the frame
 
 Heat-set inserts in the wood take the screws.
 
 <img src="docs/build/16-mount-in-the-frame.jpg" width="700" alt="The mount and Pi test-fitted inside the wooden frame, with brass inserts in the wood">
-
-### Assembly
 
 #### Printing the back plate
 
@@ -108,15 +110,15 @@ The back carries a message for Alex, plus the address of this repo and of the se
 
 <img src="docs/build/18-back-plate-fitted.jpg" width="700" alt="The back plate screwed on, with a window showing the Pi and an embossed birthday message">
 
-#### First boot, with a prototype faceplate
+#### First boot, behind the first printed faceplate
 
-<img src="docs/build/19-first-boot-green-faceplate.jpg" width="700" alt="The board running for the first time behind a green prototype faceplate">
+<img src="docs/build/19-first-boot-green-faceplate.jpg" width="700" alt="The board running for the first time behind a green printed faceplate">
 
-#### Test fit in the frame
+#### Test fit in the frame with a black faceplate
 
-<img src="docs/build/20-test-fit-in-the-frame.jpg" width="500" alt="The board running inside the wooden frame with the black faceplate">
+<img src="docs/build/20-test-fit-in-the-frame.jpg" width="500" alt="The board running inside the wooden frame with a black faceplate">
 
-#### Painting the faceplate
+#### Painting the final faceplate
 
 <img src="docs/build/21-painting-the-faceplate.jpg" width="700" alt="The printed faceplate hanging in a spray booth after painting">
 
@@ -128,13 +130,11 @@ Faceplate, screen, the Pi and its cables, then the back plate, all held on print
 
 #### Ready to go in
 
-<img src="docs/build/23-ready-to-go-in.jpg" width="700" alt="The assembled unit next to the empty wooden frame">
+<img src="docs/build/23-ready-to-go-in.jpg" width="700" alt="The assembled unit with the painted faceplate, next to the empty wooden frame">
 
 ### Finished
 
 <img src="docs/build/24-finished-on-the-desk.jpg" width="700" alt="The finished board on a desk in the navy and amber style">
-
-<img src="docs/build/25-finished-at-night.jpg" width="700" alt="The finished board at night in the pink and cyan style">
 
 ---
 
