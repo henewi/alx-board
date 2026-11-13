@@ -52,27 +52,37 @@ The Pi and screen, 3D scanned and placed inside the wooden body in CAD. The body
 
 ### The wooden body
 
-I collected the wood from a nearby farm after seeing the listing on Facebook Marketplace, then machined the body out of a single block.
+The wood is larch, collected from a nearby farm after I spotted the listing on Facebook Marketplace. The body is machined out of a single block.
 
 #### Milling the pocket
 
-<img src="docs/build/07-milling-the-body.jpg" width="700" alt="Milling the pocket into the wooden block on a manual mill">
+Milled on a manual mill at the Red Bull Racing workshop, using the printed template for the outline.
+
+<img src="docs/build/07-milling-the-body.jpg" width="700" alt="Milling the pocket into the larch block on a manual mill">
 
 #### Cut through, still clamped to the mill
+
+The pocket goes right through, leaving a single-piece frame with no joints.
 
 <img src="docs/build/08-pocket-cut-through.jpg" width="700" alt="The pocket cut right through the block, still clamped to the mill bed">
 
 #### The frame freed from the block
 
-<img src="docs/build/09-frame-freed-from-the-block.jpg" width="700" alt="The wooden frame lifted out of the block it was cut from">
+Weathered grey on the outside, fresh larch on the inside.
+
+<img src="docs/build/09-frame-freed-from-the-block.jpg" width="700" alt="The larch frame lifted out of the block it was cut from">
 
 ### The mount
+
+The mount was designed around 3D scans of the Pi and the screen and printed in PETG HF. The prototypes were printed in PLA.
 
 #### The Pi on the printed mount
 
 <img src="docs/build/10-pi-on-the-mount.jpg" width="500" alt="The Raspberry Pi fitted to the black 3D printed mount">
 
 #### The mount on the back of the screen
+
+The mount holds the screen and the Pi together as one unit, which then drops into the frame.
 
 <img src="docs/build/11-mount-on-the-screen-side.jpg" width="500" alt="Side view of the mount and Pi fitted to the back of the screen">
 
@@ -86,6 +96,8 @@ I collected the wood from a nearby farm after seeing the listing on Facebook Mar
 
 #### Sanded, with the mounting holes drilled
 
+Holes for the brass inserts that hold the faceplate and back plate.
+
 <img src="docs/build/14-holes-drilled.jpg" width="700" alt="The sanded frame with mounting holes drilled in the top face">
 
 #### Lacquering in the spray booth
@@ -96,9 +108,9 @@ I collected the wood from a nearby farm after seeing the listing on Facebook Mar
 
 #### Heat-set inserts in the wood
 
-Brass heat-set inserts in the frame take the screws for the faceplate and back plate. Shown with the mount test-fitted inside.
+Brass inserts, heat-set and then superglued so they can't pull out of the wood. Shown with the mount test-fitted inside.
 
-<img src="docs/build/16-heat-set-inserts-in-the-frame.jpg" width="700" alt="Brass heat-set inserts in the wooden frame, with the mount and Pi test-fitted inside">
+<img src="docs/build/16-heat-set-inserts-in-the-frame.jpg" width="700" alt="Brass heat-set inserts in the larch frame, with the mount and Pi test-fitted inside">
 
 #### Printing the back plate
 
@@ -106,31 +118,39 @@ Brass heat-set inserts in the frame take the screws for the faceplate and back p
 
 #### The back plate fitted
 
-The back carries a message for Alex, plus the address of this repo and of the settings page.
+The back plate is in two pieces. One has a window for the Pi's ports. The other says happy birthday, with the address of this repo and of the settings page.
 
-<img src="docs/build/18-back-plate-fitted.jpg" width="700" alt="The back plate screwed on, with a window showing the Pi and an embossed birthday message">
+<img src="docs/build/18-back-plate-fitted.jpg" width="700" alt="The two-piece back plate screwed on, with a window showing the Pi and an embossed birthday message">
 
-#### First boot, behind the first printed faceplate
+#### First boot, behind a test faceplate
 
-<img src="docs/build/19-first-boot-green-faceplate.jpg" width="700" alt="The board running for the first time behind a green printed faceplate">
+A green PLA test piece, before printing and painting the real thing.
 
-#### Test fit in the frame with a black faceplate
+<img src="docs/build/19-first-boot-green-faceplate.jpg" width="700" alt="The board running for the first time behind a green PLA test faceplate">
 
-<img src="docs/build/20-test-fit-in-the-frame.jpg" width="500" alt="The board running inside the wooden frame with a black faceplate">
+#### Test fit in the frame
 
-#### Painting the final faceplate
+No faceplate yet. The black around the screen is the back plate, seen from the front.
+
+<img src="docs/build/20-test-fit-in-the-frame.jpg" width="500" alt="The board running inside the larch frame before the faceplate was fitted">
+
+#### Painting the faceplate
+
+The final faceplate, printed in PETG HF and painted for a clean finish.
 
 <img src="docs/build/21-painting-the-faceplate.jpg" width="700" alt="The printed faceplate hanging in a spray booth after painting">
 
-#### The layers
+#### The layers, and the cabling
 
-Faceplate, screen, the Pi and its cables, then the back plate, all held on printed standoffs.
+The screen sits raised off the mount, so tiny printed podiums fill the gap between it and the faceplate. Below that are the Pi and its cables, then the back plate, all held on printed standoffs.
 
-<img src="docs/build/22-the-layers-side-view.jpg" width="700" alt="Side view of the assembled stack showing the faceplate, screen, Pi, cables and back plate">
+The cabling was a nightmare. The screen's power and the Pi's micro-HDMI both had to fit inside the stack, and nothing off the shelf did. It took three attempts with different adapters and custom ribbon cables, splicing different ones together along the way. In the end I made my own power cable, and the video runs through a double HDMI adapter setup joined by a flat ribbon cable.
+
+<img src="docs/build/22-the-layers-side-view.jpg" width="700" alt="Side view of the assembled stack showing the faceplate, podiums, screen, Pi, ribbon cable and back plate">
 
 #### Ready to go in
 
-<img src="docs/build/23-ready-to-go-in.jpg" width="700" alt="The assembled unit with the painted faceplate, next to the empty wooden frame">
+<img src="docs/build/23-ready-to-go-in.jpg" width="700" alt="The assembled unit with the painted faceplate, next to the empty larch frame">
 
 ### Finished
 
