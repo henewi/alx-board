@@ -771,7 +771,7 @@ def radius():
 def current_theme():
     t = SETTINGS.get("theme") or CFG["theme"]
     # Styles that were retired: carry on with the nearest one
-    t = {"sunset": "wavepunk", "racing": "sage", "jetage": "dusk", "graphite": "solari"}.get(t, t)
+    t = {"sunset": "wavepunk", "racing": "sage", "jetage": "dusk", "graphite": "solari", "ivory": "renaissance"}.get(t, t)
     return t if t in settings_page.THEME_IDS else "solari"
 
 

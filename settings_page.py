@@ -12,7 +12,6 @@ import json
 THEMES = [
     ("solari", "Solari", "Classic amber split-flaps, green radar", ("#090909", "#272727", "#ffc53d", "#ffc53d", "#0f2a1d", "#7dffb0")),
     ("terminal", "Terminal", "Modern UK airport screens: navy bands, white and yellow", ("#081a35", "#0f2c58", "#ffffff", "#ffd400", "#0d2a52", "#6fb6ff")),
-    ("ivory", "Ivory", "Vintage station board: walnut, brass and a compass rose", ("#1c1610", "#f2ead8", "#1b1b1b", "#d9b25a", "#f3e9d2", "#6b5530")),
     ("cockpit", "Cockpit", "Airbus glass cockpit: green, cyan and magenta on black", ("#03060a", "#05090d", "#3dff6a", "#3ee8ff", "#02070b", "#e8f0f6")),
     ("crt", "CRT", "Green phosphor terminal with scanlines", ("#010d04", "#03200b", "#7dff9b", "#7dff9b", "#0f2a1d", "#7dffb0")),
     ("sage", "Sage", "Calm: soft green and oat, rounded tiles, a peach accent", ("#2d3830", "#3d4c41", "#f1ead8", "#e5ab88", "#3f4f43", "#cfe0c4")),
@@ -28,6 +27,9 @@ THEMES = [
     ("popart", "Pop Art", "A comic strip: halftone dots, black outlines and a POW radar", ("#33c3f0", "#ffffff", "#111111", "#e8132b", "#ffe14a", "#e8132b")),
     ("groovy", "Groovy", "The 1970s: orange, mustard and brown, rainbow stripes", ("#f6e7c6", "#f08a24", "#fff4dc", "#d1452e", "#fbecd0", "#d1452e")),
     ("candy", "Candy", "A sweet shop: pink, sprinkles and a doughnut radar", ("#ffd3e6", "#ffffff", "#ff4f9a", "#ff4f9a", "#ff9cc8", "#e9b277")),
+    ("cosmos", "Cosmos", "Deep space: a nebula, stars and an orrery radar with planets", ("#0a0d24", "#1b2042", "#eef3ff", "#7fd4ff", "#151b3d", "#9fc4ff")),
+    ("grandprix", "Grand Prix", "The pit wall: timing colours, kerbs, a chequered flag and a soft-tyre radar", ("#16171a", "#f2f2f2", "#111111", "#e8002d", "#2c2e34", "#e8002d")),
+    ("pho", "Pho", "A noodle shop: red lacquer, gold signs, lanterns and a bowl of pho", ("#941c13", "#fff6de", "#a3170f", "#ffd54a", "#e39a3b", "#1f5fa8")),
 ]
 THEME_IDS = [t[0] for t in THEMES]
 

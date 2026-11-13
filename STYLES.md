@@ -6,7 +6,6 @@ Saved styles for the board and radar. Tap the board to open the style picker, or
 |---|---|---|
 | **Solari** (default) | Amber split flaps on black, green radar | The classic departure board, unchanged. |
 | **Terminal** | Modern UK airport screen: navy header and footer bands, striped rows, yellow tags | Clean and very readable. |
-| **Ivory** | Vintage station board: walnut, a brass double frame, cream 3D flaps, engraved gold Cinzel lettering, a parchment radar with a compass rose | Pairs well with a wood face. |
 | **Cockpit** | Airbus glass cockpit: B612 (the font made for Airbus displays), green values, cyan labels, magenta for the nearest plane, a compass-arc radar with no sweep | Dark, so good at night. |
 | **CRT** | Green phosphor text with scanlines | Unchanged. |
 | **Sage** | Calm: soft sage green and oat, Jost lettering on rounded tiles, a peach accent, dotted radar rings | Easy on the eye. |
@@ -22,18 +21,21 @@ Saved styles for the board and radar. Tap the board to open the style picker, or
 | **Pop Art** | A comic strip: Bangers lettering, Ben-Day halftone dots, white boxes with black ink outlines, a speech-bubble card with a tail, a yellow halftone radar inside a red POW burst | Funky. |
 | **Groovy** | The 1970s: a fat italic Shrikhand title with a stacked shadow, every column its own colour (red, orange, mustard, brown, avocado), rainbow stripe rules, rainbow arcs, a 70s-ringed radar | Funky. |
 | **Candy** | A sweet shop: pink with sprinkles, rounded Fredoka letters on white tiles, icing drips under the header, a dashed card, and the radar is a sprinkled pink doughnut | Funky. |
+| **Cosmos** | Deep space: a starfield and purple and teal nebulae on the board, a constellation by the clock, Michroma lettering, glowing flaps, and the radar is an orrery: dashed orbits with planets (one ringed), the home dot as the sun | Funky. |
+| **Grand Prix** | The pit wall: asphalt, italic Titillium, a timing tower (white flight column, purple for the nearest, yellow types), red-and-white kerbs, sector colours on the card, a chequered flag, and the radar is a soft tyre | Funky. Generic: no team or series logos. |
+| **Pho** | A noodle shop: red lacquer with a lattice pattern, gold Lilita One signage, two lanterns, cream enamel menu tiles, and the radar is a bowl of pho from above (broth, noodles, beef, herbs, chilli, a lime wedge, steam) in a blue-and-white bowl | Funky. |
 
-Retired in v1.5: Racing Green, Jet Age and Graphite. A board that had one saved moves to Sage, Dusk or Solari.
+Retired: Racing Green, Jet Age and Graphite (v1.5), Ivory (v1.7). A board that had one saved moves to Sage, Dusk, Solari or Renaissance.
 
 ## Choosing the style on the Pi
 
 Set it in `config.json`:
 
 ```json
-{ "theme": "ivory" }
+{ "theme": "cosmos" }
 ```
 
-Or add it to the kiosk address: `http://localhost:8080/?kiosk&theme=ivory`. The address wins over `config.json`.
+Or add it to the kiosk address: `http://localhost:8080/?kiosk&theme=cosmos`. The address wins over `config.json`.
 
 ## The one rule: same layout
 
@@ -58,11 +60,11 @@ The variables that matter most:
 - **Flaps:** `--flap-ink` (letters), `--flap-top`, `--flap-bot` (tile halves), `--flap-line` (the split; `transparent` for flat cells), `--flap-radius`
 - **Radar:** `--radar-in`, `--radar-out` (background), `--radar-line` (rings), `--radar-ink` (planes), `--radar-near` (nearest plane)
 - **Map tint:** `--map-hue` (colour shift), `--map-invert` (1 for a dark map, 0 for a light map), `--map-opacity`
-- **Font:** `--font`. Built in: Oswald, Barlow Condensed, VT323, Orbitron, B612, B612 Mono, Jost, Courier Prime, Playfair Display, Cinzel, Titillium Web, Monoton, Bangers, Shrikhand and Fredoka (all SIL Open Font License).
+- **Font:** `--font`. Built in: Oswald, Barlow Condensed, VT323, Orbitron, B612, B612 Mono, Jost, Courier Prime, Playfair Display, Cinzel, Titillium Web, Monoton, Bangers, Shrikhand, Fredoka, Michroma and Lilita One (all SIL Open Font License).
 
 ## Ideas to try next
 
-- An automatic day/night switch, for example Ivory by day and Cockpit after dark.
+- An automatic day/night switch, for example Sandstone by day and Cockpit after dark.
 - Airline-coloured flight codes on the Terminal style.
 
 # Layout concepts
