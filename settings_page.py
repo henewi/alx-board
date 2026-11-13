@@ -15,11 +15,14 @@ THEMES = [
     ("ivory", "Ivory", "Vintage station board: walnut, brass and a compass rose", ("#1c1610", "#f2ead8", "#1b1b1b", "#d9b25a", "#f3e9d2", "#6b5530")),
     ("cockpit", "Cockpit", "Airbus glass cockpit: green, cyan and magenta on black", ("#03060a", "#05090d", "#3dff6a", "#3ee8ff", "#02070b", "#e8f0f6")),
     ("crt", "CRT", "Green phosphor terminal with scanlines", ("#010d04", "#03200b", "#7dff9b", "#7dff9b", "#0f2a1d", "#7dffb0")),
-    ("racing", "Racing Green", "1950s British motor racing: green, cream, gold, chequered flag", ("#0a1f14", "#163626", "#f2e8cf", "#d4af37", "#143524", "#d4af37")),
-    ("jetage", "Jet Age", "1960s space-age terminal: rounded flaps, starbursts, orange", ("#0e2f4a", "#f4f1e8", "#0e2f4a", "#ff8a2a", "#16466d", "#9fd4ff")),
+    ("sage", "Sage", "Calm: soft green and oat, rounded tiles, a peach accent", ("#2d3830", "#3d4c41", "#f1ead8", "#e5ab88", "#3f4f43", "#cfe0c4")),
+    ("dusk", "Dusk", "Twilight lavender, an apricot sunset and the first stars", ("#2a2648", "#322e52", "#f6eef8", "#f6b38e", "#3b3160", "#cbbcf2")),
+    ("sandstone", "Sandstone", "Warm sand, terracotta tiles and olive", ("#e8d8bf", "#ad4e30", "#fbf3e4", "#a8492c", "#f2e6d0", "#7a4b2c")),
     ("paper", "Paper", "Printed timetable: typewriter letters and red ink", ("#ece8de", "#fdfcf8", "#151515", "#c8102e", "#f7f4ec", "#5a564d")),
+    ("renaissance", "Renaissance", "Illuminated manuscript: vellum, red and gold, an astrolabe radar", ("#efe2c4", "#e4d3ae", "#3a2414", "#9e2a1a", "#f5ebd3", "#8a6a34")),
     ("wavepunk", "Wavepunk", "Synthwave neon, chrome and a grid horizon", ("#1a0436", "#16022f", "#5ff8ff", "#ff2fd6", "#3a0d5c", "#ff2fd6")),
-    ("graphite", "Graphite", "Formula 1 telemetry on carbon fibre", ("#0e1013", "#1f2226", "#f4f6f8", "#ff3b2f", "#141a20", "#c9d1da")),
+    ("blueprint", "Blueprint", "An engineering drawing: white line-work on blue", ("#0f4277", "#0f4277", "#ffffff", "#bfe6ff", "#104680", "#ffffff")),
+    ("bosnia", "Bosnia", "The flag: royal blue, yellow and a ring of white stars", ("#00268f", "#0b2d93", "#ffffff", "#fecb00", "#0b2f9c", "#fecb00")),
     ("sunflower", "Sunflower", "Her favourite: yellow, with a sunflower radar", ("#f3bd12", "#221d14", "#ffd23f", "#f3bd12", "#2b2412", "#ffd23f")),
 ]
 THEME_IDS = [t[0] for t in THEMES]

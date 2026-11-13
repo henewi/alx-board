@@ -9,12 +9,17 @@ Saved styles for the board and radar. Tap the board to open the style picker, or
 | **Ivory** | Vintage station board: walnut, a brass double frame, cream 3D flaps, engraved gold Cinzel lettering, a parchment radar with a compass rose | Pairs well with a wood face. |
 | **Cockpit** | Airbus glass cockpit: B612 (the font made for Airbus displays), green values, cyan labels, magenta for the nearest plane, a compass-arc radar with no sweep | Dark, so good at night. |
 | **CRT** | Green phosphor text with scanlines | Unchanged. |
-| **Racing Green** | 1950s British motor racing: italic Playfair title, cream number plate, gold pinstripes, a chequered flag strip, a gold-ticked gauge radar | Made for a wood face. |
-| **Jet Age** | 1960s space-age terminal: Jost (Futura-style), rounded cream flaps, starbursts, orange pill tags | Bright and cheerful. |
+| **Sage** | Calm: soft sage green and oat, Jost lettering on rounded tiles, a peach accent, dotted radar rings | Easy on the eye. |
+| **Dusk** | Twilight: lavender and slate, Titillium, an apricot sunset glow low on the board and in the radar, the first stars | Easy on the eye; good in the evening. |
+| **Sandstone** | Warm and light: sand with a stucco texture, cream tiles with terracotta letters, olive tag, terracotta and olive double rule | Easy on the eye; the warm light style. |
 | **Paper** | Printed timetable: typewriter letters straight on paper, dotted leaders, double red rule, serif title | The light style. Best in a bright room. |
+| **Renaissance** | An illuminated manuscript: vellum with darkened edges, Cinzel capitals with a red initial, Playfair italics with old-style numbers, double gold rules with an ornament, sepia photos, a brass astrolabe radar with fleurons | Light. |
 | **Wavepunk** | Synthwave: neon cyan flaps, chrome-gradient Orbitron title, a magenta grid horizon, a striped sun in the radar | Replaces Sunset. |
-| **Graphite** | Formula 1 telemetry on carbon fibre: Titillium, red speed stripes, angled cards, a grid radar | Made for a carbon face. |
+| **Blueprint** | An engineering drawing: white line-work on blue with a drawing grid, outlined character boxes in B612 Mono, a dashed card, centre-lines and a protractor scale on the radar, and a dimension line across the top giving the board window's real width: 95.94 mm | |
+| **Bosnia** | The flag: royal blue, white letters, yellow tags and rules, the flag's triangle and line of stars faintly behind the board, and nine white stars round a yellow-ringed radar | |
 | **Sunflower** | Her favourite colour: marigold, sunburst rays, and the radar is a sunflower (seed-head face, petal rim) | Bold, like airport signs. |
+
+Retired in v1.5: Racing Green, Jet Age and Graphite. A board that had one saved moves to Sage, Dusk or Solari.
 
 ## Choosing the style on the Pi
 

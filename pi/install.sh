@@ -86,13 +86,17 @@ command -v raspi-config >/dev/null && raspi-config nonint do_wifi_country "$COUN
 rfkill unblock wifi 2>/dev/null || true
 timedatectl set-timezone "$TZ_NAME"
 
-step "Quiet boot (no rainbow, logo or text on screen)"
+step "Quiet boot (no rainbow, logo or text on screen, Pi lights off)"
 BOOT=/boot/firmware; [ -f "$BOOT/cmdline.txt" ] || BOOT=/boot
 CFGTXT="$BOOT/config.txt"; CMD="$BOOT/cmdline.txt"
 [ -f "$CMD.alx-backup" ] || cp "$CMD" "$CMD.alx-backup"
 grep -q '^disable_splash=1' "$CFGTXT" || echo 'disable_splash=1' >> "$CFGTXT"
 grep -q '^dtparam=watchdog=on' "$CFGTXT" || echo 'dtparam=watchdog=on' >> "$CFGTXT"
 grep -q '^avoid_warnings=1' "$CFGTXT" || echo 'avoid_warnings=1' >> "$CFGTXT"    # no lightning-bolt or temperature icons
+# The Pi's red and green lights would glow through the faceplate
+for l in dtparam=pwr_led_trigger=none dtparam=pwr_led_activelow=off dtparam=act_led_trigger=none dtparam=act_led_activelow=off; do
+  grep -qx "$l" "$CFGTXT" || echo "$l" >> "$CFGTXT"
+done
 # The bootloader's own diagnostics screen: turn it off so nothing shows before the board
 if command -v rpi-eeprom-config >/dev/null 2>&1; then
   EEPROM_NOW="$(rpi-eeprom-config 2>/dev/null || true)"

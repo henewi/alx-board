@@ -110,6 +110,8 @@ DEFAULTS = {
     "iss_tle_url": "https://celestrak.org/NORAD/elements/gp.php?CATNR=25544&FORMAT=TLE",
     # Wi-Fi setup hotspot when there's no working connection. "auto" = only on a Raspberry Pi running as root.
     "wifi_manage": "auto",
+    # Turn off the Pi's red and green lights (they glow through the faceplate). Pi only.
+    "leds_off": True,
 }
 
 
@@ -768,7 +770,8 @@ def radius():
 
 def current_theme():
     t = SETTINGS.get("theme") or CFG["theme"]
-    t = {"sunset": "wavepunk"}.get(t, t)          # Sunset became Wavepunk
+    # Styles that were retired: carry on with the nearest one
+    t = {"sunset": "wavepunk", "racing": "sage", "jetage": "dusk", "graphite": "solari"}.get(t, t)
     return t if t in settings_page.THEME_IDS else "solari"
 
 
@@ -1169,10 +1172,55 @@ def on_joined(ssid, pc):
     set_postcode(ssid, pc)
 
 
+# ---------- the Pi's own lights ----------
+# The red power light and green activity light would glow through the faceplate. Turn them off now
+# (no restart needed), and write the setting into the Pi's boot settings so they stay off from power-on.
+LED_BOOT_LINES = ["dtparam=pwr_led_trigger=none", "dtparam=pwr_led_activelow=off",
+                  "dtparam=act_led_trigger=none", "dtparam=act_led_activelow=off"]
+
+
+def lights_off(sys_leds="/sys/class/leds", boot_dirs=("/boot/firmware", "/boot")):
+    if not CFG.get("leds_off", True):
+        return
+    done = []
+    for name in ("ACT", "PWR", "led0", "led1"):
+        d = os.path.join(sys_leds, name)
+        if not os.path.isdir(d):
+            continue
+        try:
+            with open(os.path.join(d, "trigger"), "w") as f:
+                f.write("none")
+            with open(os.path.join(d, "brightness"), "w") as f:
+                f.write("0")
+            done.append(name)
+        except OSError:
+            pass
+    if done:
+        log("lights off: " + ", ".join(done))
+    for b in boot_dirs:
+        cfg_txt = os.path.join(b, "config.txt")
+        if not os.path.isfile(cfg_txt):
+            continue
+        try:
+            with open(cfg_txt) as f:
+                text = f.read()
+            have = {l.strip() for l in text.splitlines()}
+            missing = [l for l in LED_BOOT_LINES if l not in have]
+            if missing:
+                with open(cfg_txt, "a") as f:
+                    f.write(("" if text.endswith("\n") or not text else "\n")
+                            + "# ALX: Pi lights off behind the faceplate\n" + "\n".join(missing) + "\n")
+                log("lights: saved in " + cfg_txt)
+        except OSError as e:
+            log(f"lights: couldn't update {cfg_txt}: {e}")
+        break
+
+
 def main():
     global WIFI
     signal.signal(signal.SIGTERM, shutdown)
-    if WifiManager.enabled(CFG):
+    if WifiManager.enabled(CFG):      # only on the Pi, running with full rights
+        lights_off()
         WIFI = WifiManager(CFG, CACHE_DIR, log, on_joined=on_joined)
         WIFI.start()
         log("wifi setup manager running")

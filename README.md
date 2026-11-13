@@ -50,7 +50,7 @@ Copy `config.example.json` to `config.json` and edit:
 
 - **`lat` / `lon` / `place`:** pin the location for good, overriding the postcode. Normally leave these out and use the postcode.
 - **`carto_key`:** a free key from https://carto.com/basemaps/apikey/ switches the map to CARTO's darker style. Without one it uses OpenStreetMap tiles, tinted green.
-- **`theme`:** board style: `solari`, `terminal`, `ivory`, `cockpit`, `crt`, `racing`, `jetage`, `paper`, `wavepunk`, `graphite` or `sunflower`. See `STYLES.md`.
+- **`theme`:** board style: `solari`, `terminal`, `ivory`, `cockpit`, `crt`, `sage`, `dusk`, `sandstone`, `paper`, `renaissance`, `wavepunk`, `blueprint`, `bosnia` or `sunflower`. See `STYLES.md`.
 - **`radius_mi`, `poll_s`, `port`:** starting radar range in miles (default 10; she can switch between 10, 15 and 25 on the phone page), update interval, web port.
 - **`birthday`** (`"MM-DD"`) and **`name`:** for the greeting and the birthday surprise.
 - **`contact`:** a website or email sent with requests so the free services know who's asking. Planespotters requires it.
@@ -98,6 +98,7 @@ Preview the board prompt with `?place` or `?place=error`.
 Add these to the board's address (they work on the live board and on the file):
 
 - `?wifi`: Wi-Fi setup screen; also `?wifi=connecting` and `?wifi=error`
+- `?wifi=looking`, `?wifi=new`, `?wifi=signin`: the "looking for Wi-Fi" countdown screen (saved network nearby / none nearby / a network that wants a sign-in page)
 - `?place`: postcode prompt; also `?place=error`
 - `?iss`: an ISS pass overhead
 - `?birthday`: the birthday surprise (flips in after about 8 seconds)
@@ -116,12 +117,15 @@ Every style uses exactly the same layout, checked pixel by pixel in a browser, s
 
 `wifi.py` handles getting online, using Raspberry Pi OS's built-in NetworkManager:
 
-- **First start-up:** with no Wi-Fi saved, after about 45 seconds the board shows "LET'S GET ONLINE" with two QR codes. The first joins the phone to the device's own network, **ALX-Setup**; the password is on screen and is generated once per device. A setup page then opens on the phone listing nearby networks. Pick one, type the password and the postcode, tap Connect.
-- **Wrong password:** the setup screen comes back with a message and you can try again.
+- **Never an empty board.** Whenever it isn't online, the board says so: "LOOKING FOR WI-FI", what it's trying, and a countdown to Wi-Fi setup.
+- **Somewhere new** (first start-up, or no saved network in range): setup opens after about 40 seconds. The board shows "LET'S GET ONLINE" with two QR codes. The first joins the phone to the device's own network, **ALX-Setup**; the password is on screen and is generated once per device. A setup page then opens on the phone listing nearby networks. Pick one, type the password and the postcode, tap Connect.
+- **A saved network is in range but not working yet** (router restarting): it gives it 2½ minutes before opening setup.
+- **Wrong password:** the setup screen comes back and says so.
+- **Networks with a sign-in page** (work or hotel guest Wi-Fi) can't work: the board has no way to fill that page in. It says exactly that, instead of blaming the password, and asks for another network or a phone hotspot.
 - **After that it never appears again.** NetworkManager remembers the network.
-- **If the Wi-Fi drops** (router restart, moving house), it waits 3 minutes first. If setup does open, it keeps retrying the saved network every 5 minutes and reconnects by itself when it's back.
+- **While in setup** it retries the saved networks every 5 minutes and reconnects by itself when one is back. It waits while someone is using the setup page (up to 10 extra minutes), so it never pulls the network from under them. If the setup network itself drops, it restarts it.
 
-It only runs on a Raspberry Pi running as root (`"wifi_manage": "auto"`), so it does nothing on your laptop. Preview the screens with `?wifi`, `?wifi=connecting` or `?wifi=error` on the address.
+It only runs on a Raspberry Pi running as root (`"wifi_manage": "auto"`), so it does nothing on your laptop. Preview the screens with `?wifi`, `?wifi=connecting`, `?wifi=error`, `?wifi=looking`, `?wifi=new` or `?wifi=signin` on the address.
 
 ## On the Pi
 
@@ -137,7 +141,8 @@ The install script:
 - sets up the screen as a bare Chromium kiosk (cage), with the mouse pointer hidden and no screen blanking;
 - adds the data service, the watchdogs and the nightly timer;
 - sets the Wi-Fi country to GB and the time zone to Europe/London;
-- makes the boot silent: no rainbow, Pi logo or scrolling text.
+- makes the boot silent: no rainbow, Pi logo or scrolling text;
+- turns off the Pi's red and green lights, which would glow through the faceplate. (The board service also does this every time it starts, so updates bring it to boards installed earlier. Set `"leds_off": false` in `config.json` to keep them.)
 
 It's safe to run again: it never touches `/opt/alx/data`.
 
