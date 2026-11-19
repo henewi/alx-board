@@ -369,13 +369,23 @@ The logbook, stats, recent flights, style and postcodes are saved to `/opt/alx/d
 alxctl status                 version, health, last update
 sudo alxctl update            check for an update now
 sudo alxctl rollback          go back to the previous version
+sudo alxctl factory-reset     wipe everything and switch off (before wrapping)
 journalctl -u alx -f          live log of the data service
 journalctl -u alx-nightly     what the last nightly run did
 ```
 
 #### Before wrapping it
 
-Make it forget **your** Wi-Fi, so she gets the proper first start-up: `sudo nmcli connection delete preconfigured` (`nmcli connection show` lists the names). Then switch it off at the wall.
+Give her a true first start-up: plug it in at yours, SSH in, then
+
+```
+sudo alxctl update            make sure it's on the latest version
+sudo alxctl factory-reset     wipe and switch off
+```
+
+`factory-reset` stops the board, wipes the logbook, stats, recent flights, style, postcodes and map tiles, forgets **every** saved Wi-Fi network (yours included), clears the old logs and switches the Pi off. Your SSH session drops at the end; once the screen is dark, unplug it and wrap it. `config.json`, the code and the update setup are kept. Options: `--keep-wifi`, `--no-poweroff` (restart instead), `--yes` (skip the prompt).
+
+At Alex's it then starts with the Wi-Fi setup screen, asks for her postcode and begins a fresh logbook.
 
 #### If the picture is wrong
 

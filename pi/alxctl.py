@@ -8,9 +8,11 @@ alxctl - looks after ALX Departures on the Pi. Standard library only.
     alxctl rollback        go back to the previous version
     alxctl status          what's running, version, health
     alxctl wait-server     wait (up to a minute) for the data service; used before the screen opens
+    alxctl factory-reset   wipe logbook, stats, style, postcodes and saved Wi-Fi, then switch off
+                           (once, before wrapping it; --keep-wifi, --no-poweroff, --yes)
 
-Nothing here touches Alex's data (logbook, stats, settings, postcodes). That lives in
-/opt/alx/data and is never replaced by an update or a restart.
+Apart from factory-reset, nothing here touches Alex's data (logbook, stats, settings,
+postcodes). That lives in /opt/alx/data and is never replaced by an update or a restart.
 
 Layout:
     /opt/alx/releases/<version>/   the code of each installed version
@@ -389,6 +391,82 @@ def cmd_nightly():
         restart_all("nightly")
 
 
+# ---------- factory reset (run once, just before the board is wrapped) ----------
+
+# Everything that would show the board has been used before. Plain caches (routes, ISS orbit)
+# and config.json stay; the Wi-Fi setup password stays too, it's shown on screen anyway.
+RESET_FILES = ["logbook.json", "recent.json", "today.json", "settings.json",
+               "postcodes.json", "location.json"]
+RESET_DIRS = ["tiles"]
+
+
+def cmd_factory_reset(argv):
+    """Wipes the logbook, stats, style, postcodes and saved Wi-Fi, then switches the Pi off,
+    so the next start-up (at Alex's) is a true first start-up."""
+    if os.geteuid() != 0 and SYSTEMCTL == "systemctl":
+        log("please run with sudo: sudo alxctl factory-reset")
+        return
+    keep_wifi = "--keep-wifi" in argv
+    stay_on = "--no-poweroff" in argv
+    if "--yes" not in argv:
+        print("This wipes the logbook, stats, style, postcodes" + ("." if keep_wifi else " and every saved Wi-Fi network."))
+        if not stay_on:
+            print("Then it switches the Pi off, so your SSH session will drop.")
+        if input("Type RESET to carry on: ").strip() != "RESET":
+            log("cancelled, nothing changed")
+            return
+    cfg = config()
+    if cfg.get("lat") is not None or cfg.get("lon") is not None:
+        log("note: config.json pins lat/lon, so the board won't ask for a postcode. Clear them for a true first start.")
+
+    # Stop first: the data service saves everything when it stops cleanly, which would undo the wipe
+    systemctl("stop", KIOSK)
+    systemctl("stop", SERVER)
+
+    cache = os.path.expanduser(cfg.get("cache_dir") or os.path.join(DATA, "cache"))
+    for name in RESET_FILES:
+        for suffix in ("", ".bak", ".tmp"):
+            path = os.path.join(cache, name + suffix)
+            if os.path.exists(path):
+                os.remove(path)
+                log(f"removed {path}")
+    for name in RESET_DIRS:
+        path = os.path.join(cache, name)
+        if os.path.isdir(path):
+            shutil.rmtree(path, ignore_errors=True)
+            log(f"removed {path}/")
+
+    if not keep_wifi and shutil.which("nmcli"):
+        out = subprocess.run(["nmcli", "-t", "-f", "UUID,TYPE,NAME", "connection", "show"],
+                             capture_output=True, text=True, timeout=30).stdout
+        for line in out.splitlines():
+            parts = line.split(":", 2)
+            if len(parts) == 3 and parts[1] == "802-11-wireless":
+                subprocess.run(["nmcli", "connection", "delete", "uuid", parts[0]],
+                               capture_output=True, text=True, timeout=30)
+                log(f"forgot Wi-Fi network {parts[2]}")
+
+    if shutil.which("journalctl"):   # old logs mention your postcode and Wi-Fi name
+        subprocess.run(["journalctl", "--rotate"], capture_output=True, timeout=60)
+        subprocess.run(["journalctl", "--vacuum-time=1s"], capture_output=True, timeout=60)
+        log("cleared old logs")
+
+    st = load(STATE_FILE, {})
+    st.pop("kiosk_restarts", None)
+    st.pop("kiosk_restart", None)
+    st.pop("reboot", None)
+    st["factory_reset"] = time.strftime("%Y-%m-%d %H:%M")
+    save(STATE_FILE, st)
+
+    if stay_on:
+        log("reset done; starting the board again")
+        restart_all("factory reset")
+        return
+    log("reset done. Switching off - unplug once the screen is dark, then wrap it.")
+    os.sync()
+    systemctl("poweroff")
+
+
 def cmd_status():
     print(json.dumps({"version": current_version(), "health": health(), "state": load(STATE_FILE, {})}, indent=1))
 
@@ -406,6 +484,8 @@ def main(argv):
         server_back(seconds=60)
     elif cmd == "rollback":
         cmd_rollback()
+    elif cmd == "factory-reset":
+        cmd_factory_reset(argv[2:])
     else:
         cmd_status()
 

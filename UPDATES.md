@@ -29,7 +29,7 @@ Tags must be new each time. A tag that failed once is never retried, so fix the 
 5. **If step 3 or 4 fails,** it switches straight back to the previous version and restarts. The screen is back within a minute, and that release is marked bad.
 6. **If it passes,** it keeps the previous version for `sudo alxctl rollback`, tidies older ones away, and updates its own copy of `alxctl`.
 
-Alex's data in `/opt/alx/data` (logbook, stats, style, postcodes, `config.json`) is never touched by any of this.
+Alex's data in `/opt/alx/data` (logbook, stats, style, postcodes, `config.json`) is never touched by any of this. Only `sudo alxctl factory-reset`, run by hand, wipes it.
 
 ## What can't be changed remotely
 
