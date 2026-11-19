@@ -2023,7 +2023,9 @@ function refreshStyler() {
   $('stNum').textContent = `${i + 1} OF ${THEMES.length}`;
   const url = (lastState && lastState.settings_url) || (DEMO ? 'http://192.168.1.42:8080/settings' : null);
   $('stPhone').style.display = url ? '' : 'none';
-  if (url && url !== stUrlKey) { stUrlKey = url; drawQR($('stQr'), url); $('stUrl').textContent = url.replace(/^http:\/\//, ''); }
+  // The QR code uses the IP address (always works); the text shows the short name for typing later
+  const short = (lastState && lastState.short_host) || (DEMO ? 'alx.local' : null);
+  if (url && url + short !== stUrlKey) { stUrlKey = url + short; drawQR($('stQr'), url); $('stUrl').textContent = short || url.replace(/^http:\/\//, ''); }
   clearTimeout(stTimer); stTimer = setTimeout(closeStyler, 25000);
 }
 function openStyler() {

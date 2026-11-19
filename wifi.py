@@ -87,6 +87,8 @@ class WifiManager:
         self.lock = threading.Lock()
         self.radio = threading.RLock()        # one thing at a time touches the Wi-Fi radio
         self.portal = None
+        self.portal_wanted = False            # set while the setup page needs port 80
+        self.before_portal = None             # called first, so the board can hand port 80 over
         self.portal_hit = 0.0                 # last time a phone used the setup page
         self._probe = {"ok": False, "t": 0.0}
         pw_file = os.path.join(cache_dir, "wifi_setup.json")
@@ -392,6 +394,12 @@ class WifiManager:
     def start_portal(self):
         if self.portal:
             return
+        self.portal_wanted = True
+        if self.before_portal:
+            try:
+                self.before_portal()
+            except Exception as e:
+                self.log(f"wifi: couldn't free port {self.portal_port}: {e}")
         mgr = self
 
         class Portal(BaseHTTPRequestHandler):
@@ -441,9 +449,14 @@ class WifiManager:
             self.portal = None
 
     def stop_portal(self):
+        self.portal_wanted = False
         if self.portal:
             srv, self.portal = self.portal, None
-            threading.Thread(target=srv.shutdown, daemon=True).start()
+
+            def close():
+                srv.shutdown()
+                srv.server_close()        # really let go of the port, so the board can use it again
+            threading.Thread(target=close, daemon=True).start()
 
     STYLE = """<meta name="viewport" content="width=device-width,initial-scale=1">
 <style>body{margin:0;background:#0b0b0b;color:#e9e4d8;font:16px/1.4 system-ui,sans-serif;padding:24px}

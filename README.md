@@ -209,6 +209,7 @@ alx/
   settings_page.py     the phone page: postcode and board style
   config.example.json  optional settings, copy to config.json
   web/index.html       the 1024x600 board + radar page (fonts built in)
+  web/manifest.webmanifest, web/*.png   home-screen app details and icons for the settings page
   STYLES.md            the saved board styles and how to add more
   UPDATES.md           sending updates to the board remotely
   VERSION              this version's number
@@ -308,6 +309,8 @@ Alex can change the board style two ways, and the choice is saved on the device:
 
 - **On the board:** tap the board window to open the style picker, then use ‹ › and DONE. It closes by itself after 25 seconds.
 - **On her phone:** the picker shows a QR code for `http://<board's address>:8080/settings`, a page with a preview card for every style. This works while her phone is on the same Wi-Fi.
+- **At `alx.local`:** on the Pi the board also answers on the normal web port, so typing **alx.local** into her phone's browser opens the settings page (the name is the Pi's hostname, announced on the Wi-Fi by Raspberry Pi OS's built-in avahi). The picker shows that name under the QR code. When the settings page is opened by IP and the phone can reach `alx.local`, it moves itself there, so anything she saves keeps working when the router hands the board a new IP. Some Android phones can't look up `.local` names; they simply stay on the IP address. While the Wi-Fi setup page is open it needs the same port, so the short address pauses until setup is done. Turn it off with `"short_address": false` in `config.json`.
+- **As an app on her phone:** the settings page can be added to the home screen (Share → Add to Home Screen on iPhone, ⋮ → Add to Home screen on Android). It gets an ALX split-flap icon and opens full screen, like an app. A tip on the page explains how, until she taps "Got it".
 
 Every style uses exactly the same layout, checked pixel by pixel in a browser, so the faceplate always lines up. A style only changes colours and fonts. The screen draws no frame of its own: everything outside the board window and the radar porthole is one flat colour per style, sitting behind the physical faceplate. `theme` in `config.json` is just the starting style until she picks one.
 

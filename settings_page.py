@@ -73,7 +73,7 @@ def range_card(radius):
 <p class="hint" id="rgNote">{html.escape(note)}</p>"""
 
 
-def page(current, name="Alex", place=None, version="", radius=10):
+def page(current, name="Alex", place=None, version="", radius=10, short=None):
     cards = []
     for tid, label, desc, (bg, flap, ink, acc, rbg, rline) in THEMES:
         flaps = "".join(f'<i style="background:{flap};color:{ink}">{c}</i>' for c in "ALX")
@@ -87,10 +87,29 @@ def page(current, name="Alex", place=None, version="", radius=10):
   <span class="tick">✓</span>
 </button>""")
     json_notes = json.dumps({str(k): v for k, v in RANGE_NOTES.items()})
+    short_json = json.dumps(short)
+    short_foot = (f' This page is always at <span class="addr">{html.escape(short)}</span> on your Wi-Fi.') if short else ""
+    short_note = (f' Or type <span class="addr">{html.escape(short)}</span> into your browser.') if short else ""
     return f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1"><title>ALX · Board style</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>ALX</title>
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="icon" href="/icon-192.png">
+<meta name="theme-color" content="#0b0b0b">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ALX">
 <style>
-body{{margin:0;background:#0b0b0b;color:#e9e4d8;font:16px/1.4 system-ui,sans-serif;padding:22px 18px 40px}}
+body{{margin:0;background:#0b0b0b;color:#e9e4d8;font:16px/1.4 system-ui,sans-serif;
+  padding:calc(22px + env(safe-area-inset-top)) 18px calc(40px + env(safe-area-inset-bottom))}}
+.app{{display:flex;gap:14px;align-items:flex-start;background:#1a1608;border:2px solid #4a3c10;border-radius:14px;padding:14px;margin:0 0 18px}}
+.app img{{flex:none;width:52px;height:52px;border-radius:12px}}
+.app b{{display:block;font-size:16px;margin:0 0 4px}}.app p{{margin:0;font-size:14px;color:#c9c2b0}}
+.app .how{{display:none}}.app.ios .how.ios,.app.android .how.android,.app.other .how.other{{display:inline}}
+.app button{{margin-top:10px;padding:8px 14px;border:0;border-radius:8px;background:#ffc53d;color:#111;font:600 14px system-ui}}
+.addr{{color:#ffc53d;font-weight:600}}
+@media (display-mode:standalone){{.app{{display:none}}}}
 h1{{font-size:13px;letter-spacing:.28em;color:#ffc53d;margin:0 0 4px;font-weight:600}}
 h2{{font-size:26px;margin:0 0 6px;font-weight:600}}
 p.sub{{margin:0 0 20px;color:#9a9a9a;font-size:14px}}
@@ -121,15 +140,39 @@ h3{{font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:#9a9a9a;ma
 </style></head><body>
 <h1>HOWE INTERNATIONAL · ALX</h1>
 <h2>Your board</h2>
+<div class="app" id="app" hidden>
+  <img src="/apple-touch-icon.png" alt="">
+  <div><b>Keep this on your phone</b>
+  <p><span class="how ios">Tap the Share button, then <b style="display:inline">Add to Home Screen</b>.</span><span class="how android">Tap the ⋮ menu, then <b style="display:inline">Add to Home screen</b>.</span><span class="how other">Use your browser's menu to add this page to your home screen.</span>
+  It opens like an app whenever you're on the same Wi-Fi as the board.{short_note}</p>
+  <button type="button" id="appOk">Got it</button></div>
+</div>
 {place_card(place)}
 {range_card(radius)}
 <h3>Board style</h3>
 <p class="sub">Pick a look, {html.escape(name)}. The board changes straight away.</p>
 {''.join(cards)}
-<p class="note">Every style keeps the same layout, so it always lines up with the frame. You can also tap the board itself to change it.</p>
+<p class="note">Every style keeps the same layout, so it always lines up with the frame. You can also tap the board itself to change it.{short_foot}</p>
 <p class="ver">ALX Departures {html.escape(version or "")}</p>
 <div id="toast">Changed. Have a look at the board</div>
 <script>
+// Her phone can reach the board by name: move to that address so a saved shortcut never goes stale
+const SHORT = {short_json};
+if (SHORT && location.hostname !== SHORT && !/[?&]stay/.test(location.search)) {{
+  const probe = new Image();
+  probe.onload = () => location.replace('http://' + SHORT + '/settings');
+  probe.src = 'http://' + SHORT + '/icon-192.png?t=' + Date.now();
+}}
+(() => {{
+  const app = document.getElementById('app'), ua = navigator.userAgent;
+  const standalone = navigator.standalone || matchMedia('(display-mode: standalone)').matches;
+  let seen = false; try {{ seen = localStorage.getItem('alx-app-tip') === '1'; }} catch (e) {{}}
+  if (standalone || seen) return;
+  app.classList.add(/iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1) ? 'ios'
+    : /Android/.test(ua) ? 'android' : 'other');
+  app.hidden = false;
+  document.getElementById('appOk').onclick = () => {{ app.hidden = true; try {{ localStorage.setItem('alx-app-tip', '1'); }} catch (e) {{}} }};
+}})();
 function toast(msg, bad) {{
   const t = document.getElementById('toast'); t.textContent = msg; t.classList.toggle('err', !!bad);
   t.classList.add('show'); clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove('show'), 3200);

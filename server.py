@@ -49,6 +49,10 @@ DEFAULTS = {
     # 0.0.0.0 so Alex's phone can reach the style page on the home Wi-Fi
     "host": "0.0.0.0",
     "port": 8080,
+    # On the Pi the board also answers on the normal web port, so her phone can open plain
+    # http://alx.local (the Pi's name). The Wi-Fi setup page takes the port over while it's open.
+    # true / false, or "auto" = only on the Pi.
+    "short_address": "auto",
     # Height/width correction for the radar on screens with non-square pixels. Alex's 7" panel:
     # (155.1 mm / 1024 px) / (86.4 mm / 600 px) = 1.0518. If the radar looks squashed, measure it and adjust.
     "pixel_aspect": 1.0518,
@@ -793,6 +797,59 @@ def lan_ip():
 
 
 WIFI = None   # set in main() on the Pi
+
+# ---------- the short address: http://alx.local ----------
+
+WEB80 = {"srv": None, "lock": threading.Lock(), "fail_logged": False}
+
+
+def short_enabled():
+    v = CFG.get("short_address", "auto")
+    return bool(WIFI) if v == "auto" else bool(v)
+
+
+def short_host():
+    """'alx.local' when phones can reach the board without a port number, else None."""
+    if not WEB80["srv"]:
+        return None
+    if not (os.path.exists("/usr/sbin/avahi-daemon") or os.path.exists("/run/avahi-daemon")):
+        return None                      # nothing answering for .local names on this Pi
+    name = socket.gethostname().split(".")[0].strip().lower()
+    return f"{name}.local" if name and name != "localhost" else None
+
+
+def stop_web80():
+    """Hand port 80 back (the Wi-Fi setup page needs it). Returns once the port is free."""
+    with WEB80["lock"]:
+        srv, WEB80["srv"] = WEB80["srv"], None
+    if srv:
+        srv.shutdown()
+        srv.server_close()
+        log("short address paused for Wi-Fi setup")
+
+
+def web80_loop():
+    """Keeps the board on port 80 whenever the Wi-Fi setup page isn't using it."""
+    while True:
+        try:
+            if not (WIFI and (WIFI.portal_wanted or WIFI.portal)):
+                with WEB80["lock"]:
+                    if not WEB80["srv"]:
+                        try:
+                            srv = ThreadingHTTPServer((CFG["host"], 80), Handler)
+                        except OSError as e:
+                            WEB80["fails"] = WEB80.get("fails", 0) + 1   # the setup page may still be letting go
+                            if WEB80["fails"] >= 3 and not WEB80["fail_logged"]:
+                                log(f"short address unavailable (port 80: {e}); the :{CFG['port']} address still works")
+                                WEB80["fail_logged"] = True
+                        else:
+                            WEB80["srv"], WEB80["fail_logged"], WEB80["fails"] = srv, False, 0
+                            threading.Thread(target=srv.serve_forever, daemon=True).start()
+                            log(f"also answering at http://{short_host() or socket.gethostname()}/")
+        except Exception as e:
+            log(f"short address: {e}")
+        time.sleep(5)
+
 STATE = {"location": None, "aircraft": [], "today": 0, "stats": None, "recent": [],
          "ok": False, "last_ok": 0.0, "error": "starting", "place": None}
 LOCK = threading.Lock()
@@ -955,6 +1012,8 @@ def tile_url(z, x, y):
 
 
 class Handler(SimpleHTTPRequestHandler):
+    extensions_map = {**SimpleHTTPRequestHandler.extensions_map, ".webmanifest": "application/manifest+json"}
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, directory=WEB_DIR, **kwargs)
 
@@ -969,7 +1028,8 @@ class Handler(SimpleHTTPRequestHandler):
         if path == "/api/health":
             return self.send_body(json.dumps(health()).encode(), "application/json")
         if path == "/settings":
-            body = settings_page.page(current_theme(), CFG["name"], place_info(), VERSION, radius()).encode("utf-8")
+            body = settings_page.page(current_theme(), CFG["name"], place_info(), VERSION, radius(),
+                                      short_host()).encode("utf-8")
             return self.send_body(body, "text/html; charset=utf-8")
         if path == "/api/settings":
             return self.send_body(json.dumps({"theme": current_theme(), "themes": settings_page.THEME_IDS}).encode(), "application/json")
@@ -1075,6 +1135,7 @@ class Handler(SimpleHTTPRequestHandler):
             "place": s["place"],
             "version": VERSION,
             "settings_url": f"http://{lan_ip()}:{CFG['port']}/settings" if lan_ip() else None,
+            "short_host": short_host(),
             "birthday": CFG["birthday"],
             "wifi": WIFI.public_state() if WIFI else None,
             "name": CFG["name"],
@@ -1226,6 +1287,10 @@ def main():
         log("wifi setup manager running")
     threading.Thread(target=poller, daemon=True).start()
     server = ThreadingHTTPServer((CFG["host"], CFG["port"]), Handler)
+    if short_enabled():
+        if WIFI:
+            WIFI.before_portal = stop_web80
+        threading.Thread(target=web80_loop, daemon=True).start()
     log(f"ALX Departures {VERSION} running at http://localhost:{CFG['port']} (certificates: {SSL_SOURCE})")
     sd_notify("READY=1")
     threading.Thread(target=watchdog_loop, daemon=True).start()
